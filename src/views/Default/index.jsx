@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Navigation from '../../components/navigation';
-import { getAllChecks } from '../../features/checks/actions';
+import { getLinkToken } from '../../features/accounts/actions';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import showAlert from '../../util/alerts';
 import {
@@ -12,6 +12,8 @@ import {
   CardTitle,
   CardText
 } from 'reactstrap';
+import { PlaidLink } from 'react-plaid-link';
+import Loading from '../../components/Loading';
 
 class Default extends Component {
   constructor(props) {
@@ -27,6 +29,8 @@ class Default extends Component {
   }
 
   async componentDidMount() {
+    await this.props.getLinkToken();
+    console.log(this.props.linkToken);
     showAlert(this.props.alerts);
     this.props.popAlert();
   }
@@ -36,11 +40,27 @@ class Default extends Component {
     this.props.popAlert();
   }
 
+  onSuccess(publicToken) {
+    console.log("success");
+  }
+
   render() {
     return (
       <div>
         <Navigation />
         <Container>
+          {this.props.isFetching
+            ? <Loading />
+            : (
+            <PlaidLink
+              token={this.props.linkToken}
+              onSuccess={this.onSuccess}
+              env="sandbox"
+            >
+              Connect a bank account
+            </PlaidLink>
+            )
+          }
         </Container>
       </div>
     )
@@ -48,13 +68,14 @@ class Default extends Component {
 }
 
 const mapStateToProps = state => ({
-  checks: state.checksReducer.checks,
+  linkToken: state.accountsReducer.linkToken,
   error: state.checksReducer.error,
   alerts: state.alertsReducer.alerts,
+  isFetching: state.accountsReducer.isFetching
 });
 
 const mapActionsToProps = {
-  getAllChecks,
+  getLinkToken,
   popAlert,
   pushAlert
 }

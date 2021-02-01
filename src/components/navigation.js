@@ -60,7 +60,7 @@ class Navigation extends Component {
     return (
       <div>
         <Navbar color="light" light expand="md" className="mb-3">
-          <NavbarBrand href="/">Behold</NavbarBrand>
+          <NavbarBrand href="/">Plutus</NavbarBrand>
           <NavbarToggler onClick={this.toggleOnClick} />
           <Collapse isOpen={false} navbar>
             {this.showUserInformation()}

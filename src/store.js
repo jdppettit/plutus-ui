@@ -5,11 +5,12 @@ import {
 
 import checksReducer from './features/checks/reducer';
 import alertsReducer from './features/alerts/reducer';
-
+import accountsReducer from './features/accounts/reducer';
 
 const allReducers = combineReducers({
   checksReducer,
-  alertsReducer
+  alertsReducer,
+  accountsReducer
 })
 
 let allStoreEnhancers = compose(

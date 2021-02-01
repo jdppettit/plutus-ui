@@ -8,7 +8,7 @@ if(getCurrentEnvironment() === 'development') {
   }
 } else {
   config = {
-    BASE_PATH: 'http://localhost:4040',
+    BASE_PATH: process.env.REACT_APP_PLUTUS_API_URL || 'http://localhost:4000',
     DATE_FORMAT: 'll'
   }
 }
