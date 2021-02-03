@@ -58,8 +58,9 @@ class Default extends Component {
     this.props.popAlert();
   }
 
-  async onSuccess(publicToken) {
+  async onSuccess(publicToken, metadata) {
     console.log("success");
+    console.log(metadata);
     await this.setState({
       modalIsOpen: true,
       publicToken
