@@ -11,7 +11,7 @@ export default function() {
   )
 
   this.post(
-    '/api/v1/account/publictoken',
+    '/api/v1/account',
     request => [
       200, 
       { 'Content-Type': 'application/json' },
