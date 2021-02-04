@@ -63,11 +63,11 @@ export function setPublicTokenError(error) {
   };
 }
 
-export function setPublicToken(publicToken, description) {
+export function setPublicToken(publicToken, description, accountName, lastFour, remoteId) {
   return async (dispatch) => {
     try {
       dispatch(setPublicTokenRequest());
-      const result = await publicTokenRequest(publicToken, description);
+      const result = await publicTokenRequest(publicToken, description, accountName, lastFour, remoteId);
       dispatch(setPublicTokenSuccess(result.data));
     } catch (e) {
       dispatch(setPublicTokenError(e));

@@ -4,6 +4,7 @@ import Navigation from '../../components/navigation';
 import { getLinkToken, setPublicToken } from '../../features/accounts/actions';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import showAlert from '../../util/alerts';
+import { formatAccountDescription } from '../../util/account';
 import {
   Button,
   Container,
@@ -34,7 +35,10 @@ class Default extends Component {
     this.state = {
       modalIsOpen: false,
       publicToken: "",
-      description: ""
+      description: "",
+      remoteId: "",
+      lastFour: 0,
+      accountName: ""
     }
 
     console.log(this.state);
@@ -63,7 +67,10 @@ class Default extends Component {
     console.log(metadata);
     await this.setState({
       modalIsOpen: true,
-      publicToken
+      publicToken,
+      remoteId: metadata.account.mask,
+      lastFour: metadata.account_id,
+      accountName: formatAccountDescription(metadata)
     });
   }
 
@@ -91,7 +98,10 @@ class Default extends Component {
     });
     await this.props.setPublicToken(
       this.state.publicToken,
-      this.state.description
+      this.state.description,
+      this.state.accountName,
+      this.state.lastFour,
+      this.state.remoteId
     )
     await this.setState({
       publicToken: "",
