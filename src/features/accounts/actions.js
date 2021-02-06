@@ -1,15 +1,20 @@
 import { 
-  linkTokenRequest,
-  publicTokenRequest
+  doLinkTokenRequest,
+  doCreateAccountRequest,
+  doGetAccountsRequest
 } from './util';
 
 export const GET_LINK_TOKEN_REQUEST = 'getLinkTokenRequest';
 export const GET_LINK_TOKEN_SUCCESS = 'getLinkTokenSuccess';
 export const GET_LINK_TOKEN_ERROR = 'getLinkTokenError';
 
-export const SET_PUBLIC_TOKEN_REQUEST = 'setPublicTokenRequest';
-export const SET_PUBLIC_TOKEN_SUCCESS = 'setPublicTokenSuccess';
-export const SET_PUBLIC_TOKEN_ERROR = 'setPublicTokenError';
+export const CREATE_ACCOUNT_REQUEST = 'createAccountRequest';
+export const CREATE_ACCOUNT_SUCCESS = 'createAccountSuccess';
+export const CREATE_ACCOUNT_ERROR = 'createAccountError';
+
+export const GET_ACCOUNTS_REQUEST = 'getAccountsRequest';
+export const GET_ACCOUNTS_SUCCESS = 'getAccountsSuccess';
+export const GET_ACCOUNTS_ERROR = 'getAccountsError';
 
 export function getLinkTokenRequest() {
   return {
@@ -35,7 +40,7 @@ export function getLinkToken() {
   return async (dispatch) => {
     try {
       dispatch(getLinkTokenRequest());
-      const result = await linkTokenRequest();
+      const result = await doLinkTokenRequest();
       dispatch(getLinkTokenSuccess(result.data));
     } catch (e) {
       dispatch(getLinkTokenError(e));
@@ -43,34 +48,66 @@ export function getLinkToken() {
   }
 }
 
-export function setPublicTokenRequest() {
+export function createAccountRequest() {
   return {
-    type: SET_PUBLIC_TOKEN_REQUEST
+    type: CREATE_ACCOUNT_REQUEST
   };
 }
 
-export function setPublicTokenSuccess(data) {
+export function createAccountSuccess(data) {
   return {
-    type: SET_PUBLIC_TOKEN_SUCCESS,
+    type: CREATE_ACCOUNT_SUCCESS,
     payload: data
   };
 }
 
-export function setPublicTokenError(error) {
+export function createAccountError(error) {
   return {
-    type: SET_PUBLIC_TOKEN_ERROR,
+    type: CREATE_ACCOUNT_ERROR,
     payload: error
   };
 }
 
-export function setPublicToken(publicToken, description, accountName, lastFour, remoteId) {
+export function createAccount(publicToken, description, accountName, lastFour, remoteId) {
   return async (dispatch) => {
     try {
-      dispatch(setPublicTokenRequest());
-      const result = await publicTokenRequest(publicToken, description, accountName, lastFour, remoteId);
-      dispatch(setPublicTokenSuccess(result.data));
+      dispatch(createAccountRequest());
+      const result = await doCreateAccountRequest(publicToken, description, accountName, lastFour, remoteId);
+      dispatch(createAccountSuccess(result.data));
     } catch (e) {
-      dispatch(setPublicTokenError(e));
+      dispatch(createAccountError(e));
+    }
+  }
+}
+
+export function getAccountsRequest() {
+  return {
+    type: GET_ACCOUNTS_REQUEST
+  };
+}
+
+export function getAccountsSuccess(data) {
+  return {
+    type: GET_ACCOUNTS_SUCCESS,
+    payload: data
+  };
+}
+
+export function getAccountsError(error) {
+  return {
+    type: GET_ACCOUNTS_ERROR,
+    payload: error
+  };
+}
+
+export function getAccounts() {
+  return async (dispatch) => {
+    try {
+      dispatch(getAccountsRequest());
+      const result = await doGetAccountsRequest();
+      dispatch(getAccountsSuccess(result.data));
+    } catch (e) {
+      dispatch(getAccountsError(e));
     }
   }
 }

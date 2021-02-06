@@ -1,13 +1,13 @@
 import axios from 'axios';
 import config from '../../config/app';
 
-export const linkTokenRequest = async () => axios({
+export const doLinkTokenRequest = async () => axios({
   method: 'GET',
   baseURL: config.BASE_PATH,
   url: 'api/v1/account/linktoken'
 });
 
-export const publicTokenRequest = async (
+export const doCreateAccountRequest = async (
   publicToken, description, accountName, remoteId, lastFour
 ) => axios({
   method: 'POST',
@@ -20,4 +20,10 @@ export const publicTokenRequest = async (
     remote_id: remoteId,
     last_four: lastFour
   }
+})
+
+export const doGetAccountsRequest = async () => axios({
+  method: 'GET',
+  baseURL: config.BASE_PATH,
+  url: 'api/v1/account'
 })

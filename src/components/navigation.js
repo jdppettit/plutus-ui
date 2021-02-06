@@ -47,10 +47,7 @@ class Navigation extends Component {
     return (
       <Nav className="ml-auto" navbar>
         <NavItem>
-          <NavLink href="/login">Login</NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink href="/register">Register</NavLink>
+          <NavLink href="/accounts">Accounts</NavLink>
         </NavItem>
       </Nav>
     )

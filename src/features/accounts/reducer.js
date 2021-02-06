@@ -2,9 +2,12 @@ import {
   GET_LINK_TOKEN_REQUEST,
   GET_LINK_TOKEN_SUCCESS,
   GET_LINK_TOKEN_ERROR,
-  SET_PUBLIC_TOKEN_REQUEST,
-  SET_PUBLIC_TOKEN_SUCCESS,
-  SET_PUBLIC_TOKEN_ERROR,
+  CREATE_ACCOUNT_REQUEST,
+  CREATE_ACCOUNT_SUCCESS,
+  CREATE_ACCOUNT_ERROR,
+  GET_ACCOUNTS_REQUEST,
+  GET_ACCOUNTS_SUCCESS,
+  GET_ACCOUNTS_ERROR, 
 } from './actions';
 
 export default function accountsReducer(
@@ -17,7 +20,8 @@ export default function accountsReducer(
 ) {
   switch(action.type) {
     case GET_LINK_TOKEN_REQUEST:
-    case SET_PUBLIC_TOKEN_REQUEST:
+    case CREATE_ACCOUNT_REQUEST:
+    case GET_ACCOUNTS_REQUEST:
       return {
         ...state,
         error: null,
@@ -29,13 +33,20 @@ export default function accountsReducer(
         isFetching: false,
         linkToken: action.payload.linkToken
       };
-    case SET_PUBLIC_TOKEN_SUCCESS:
+    case CREATE_ACCOUNT_SUCCESS:
       return {
         ...state,
         isFetching: false
       };
+    case GET_ACCOUNTS_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        accounts: action.payload.accounts
+      }
     case GET_LINK_TOKEN_ERROR:
-    case SET_PUBLIC_TOKEN_ERROR:
+    case CREATE_ACCOUNT_ERROR:
+    case GET_ACCOUNTS_ERROR:
       return {
         ...state,
         isFetching: false,
