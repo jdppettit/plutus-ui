@@ -8,13 +8,18 @@ import {
   GET_ACCOUNTS_REQUEST,
   GET_ACCOUNTS_SUCCESS,
   GET_ACCOUNTS_ERROR, 
+  GET_ACCOUNT_REQUEST,
+  GET_ACCOUNT_SUCCESS,
+  GET_ACCOUNT_ERROR,
 } from './actions';
 
 export default function accountsReducer(
   state = {
     isFetching: false,
     linkToken: null,
-    error: null
+    error: null,
+    accounts: [],
+    account: {}
   },
   action
 ) {
@@ -22,6 +27,7 @@ export default function accountsReducer(
     case GET_LINK_TOKEN_REQUEST:
     case CREATE_ACCOUNT_REQUEST:
     case GET_ACCOUNTS_REQUEST:
+    case GET_ACCOUNT_REQUEST:
       return {
         ...state,
         error: null,
@@ -43,10 +49,17 @@ export default function accountsReducer(
         ...state,
         isFetching: false,
         accounts: action.payload.accounts
-      }
+      };
+    case GET_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        account: action.payload.account
+      };
     case GET_LINK_TOKEN_ERROR:
     case CREATE_ACCOUNT_ERROR:
     case GET_ACCOUNTS_ERROR:
+    case GET_ACCOUNT_ERROR:
       return {
         ...state,
         isFetching: false,

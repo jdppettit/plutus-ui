@@ -27,3 +27,9 @@ export const doGetAccountsRequest = async () => axios({
   baseURL: config.BASE_PATH,
   url: 'api/v1/account'
 })
+
+export const doGetAccountRequest = async (accountId) => axios({
+  method: 'GET',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/account/${accountId}`
+})

@@ -41,7 +41,6 @@ class Default extends Component {
 
 const mapStateToProps = state => ({
   linkToken: state.accountsReducer.linkToken,
-  error: state.checksReducer.error,
   alerts: state.alertsReducer.alerts,
   isFetching: state.accountsReducer.isFetching,
   accounts: state.accountsReducer.accounts,

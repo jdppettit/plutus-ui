@@ -4,23 +4,25 @@ import {
   Table
 } from 'reactstrap';
 
-class AccountsTable extends Component {
+class ExpensesTable extends Component {
   render() {
-    let accounts = this.props.accounts || []
+    let expenses = this.props.expenses || []
     return (
       <Table>
         <thead>
           <tr>
-            <th>Account ID</th>
-            <th>Account Description</th>
+            <th>Expense ID</th>
+            <th>Expense Description</th>
+            <th>Expense Amount</th>
           </tr>
         </thead>
         <tbody>
-        {accounts.map((value, index) => {
+        {expenses.map((value, index) => {
           return (
             <tr key={index}>
-              <td><a href={`/accounts/${value.id}`}>{value.id}</a></td>
+              <td>{value.id}</td>
               <td>{value.description}</td>
+              <td>{value.amount}</td>
             </tr>
           )
         })}
@@ -32,4 +34,4 @@ class AccountsTable extends Component {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps)(AccountsTable);
+export default connect(mapStateToProps)(ExpensesTable);

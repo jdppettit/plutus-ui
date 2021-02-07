@@ -1,7 +1,8 @@
 import { 
   doLinkTokenRequest,
   doCreateAccountRequest,
-  doGetAccountsRequest
+  doGetAccountsRequest,
+  doGetAccountRequest
 } from './util';
 
 export const GET_LINK_TOKEN_REQUEST = 'getLinkTokenRequest';
@@ -15,6 +16,10 @@ export const CREATE_ACCOUNT_ERROR = 'createAccountError';
 export const GET_ACCOUNTS_REQUEST = 'getAccountsRequest';
 export const GET_ACCOUNTS_SUCCESS = 'getAccountsSuccess';
 export const GET_ACCOUNTS_ERROR = 'getAccountsError';
+
+export const GET_ACCOUNT_REQUEST = 'getAccountRequest';
+export const GET_ACCOUNT_SUCCESS = 'getAccountSuccess';
+export const GET_ACCOUNT_ERROR = 'getAccountError';
 
 export function getLinkTokenRequest() {
   return {
@@ -108,6 +113,38 @@ export function getAccounts() {
       dispatch(getAccountsSuccess(result.data));
     } catch (e) {
       dispatch(getAccountsError(e));
+    }
+  }
+}
+
+export function getAccountRequest() {
+  return {
+    type: GET_ACCOUNT_REQUEST
+  };
+}
+
+export function getAccountSuccess(data) {
+  return {
+    type: GET_ACCOUNT_SUCCESS,
+    payload: data
+  };
+}
+
+export function getAccountError(error) {
+  return {
+    type: GET_ACCOUNT_ERROR,
+    payload: error
+  };
+}
+
+export function getAccount(accountId) {
+  return async (dispatch) => {
+    try {
+      dispatch(getAccountRequest());
+      const result = await doGetAccountRequest(accountId);
+      dispatch(getAccountSuccess(result.data));
+    } catch (e) {
+      dispatch(getAccountError(e));
     }
   }
 }

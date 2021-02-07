@@ -3,14 +3,18 @@ import {
   applyMiddleware, compose, createStore, combineReducers
 } from 'redux';
 
-import checksReducer from './features/checks/reducer';
 import alertsReducer from './features/alerts/reducer';
 import accountsReducer from './features/accounts/reducer';
+import incomeReducer from './features/income/reducer';
+import transactionsReducer from './features/transactions/reducer';
+import expensesReducer from './features/expenses/reducer';
 
 const allReducers = combineReducers({
-  checksReducer,
   alertsReducer,
-  accountsReducer
+  accountsReducer,
+  incomeReducer,
+  transactionsReducer,
+  expensesReducer
 })
 
 let allStoreEnhancers = compose(

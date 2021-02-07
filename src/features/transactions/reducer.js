@@ -1,36 +1,36 @@
 import {
-  GET_ALL_CHECKS_REQUEST,
-  GET_ALL_CHECKS_SUCCESS,
-  GET_ALL_CHECKS_ERROR
+  GET_ACCOUNT_TRANSACTIONS_REQUEST,
+  GET_ACCOUNT_TRANSACTIONS_SUCCESS,
+  GET_ACCOUNT_TRANSACTIONS_ERROR
 } from './actions';
 
-export default function checksReducer(
+export default function transactionsReducer(
   state = {
     isFetching: false,
-    checks: [],
+    transactions: [],
     error: null
   },
   action
 ) {
   switch(action.type) {
-    case GET_ALL_CHECKS_REQUEST:
+    case GET_ACCOUNT_TRANSACTIONS_REQUEST:
       return {
         ...state,
         error: null,
         isFetching: true
       };
-    case GET_ALL_CHECKS_SUCCESS:
+    case GET_ACCOUNT_TRANSACTIONS_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        checks: action.payload.checks
+        transactions: action.payload.transactions
       };
-    case GET_ALL_CHECKS_ERROR:
+    case GET_ACCOUNT_TRANSACTIONS_ERROR:
       return {
         ...state,
         isFetching: false,
         error: action.payload.message
-      };
+      }
     default:
       return state;
   }

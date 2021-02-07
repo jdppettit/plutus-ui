@@ -1,13 +1,13 @@
 import Pretender from 'pretender';
 
 // import featurePretender from '../features/authentication/pretender'
-import checksPretender from '../features/checks/pretender';
 import accountsPretender from '../features/accounts/pretender';
+import incomePretender from '../features/income/pretender';
 
 export const init = () => {
   const server = new Pretender(
-    checksPretender,
-    accountsPretender
+    accountsPretender,
+    incomePretender
   );
 
   server.handledRequest = function handledRequest(verb, path, request) {

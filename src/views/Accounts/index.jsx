@@ -18,7 +18,7 @@ import Loading from '../../components/Loading';
 import AccountsTable from '../../components/AccountsTable'
 import Modal from 'react-modal';
 
-class Accounts extends Component {
+class Account extends Component {
   constructor(props) {
     super(props);
 
@@ -37,10 +37,8 @@ class Accounts extends Component {
       lastFour: 0,
       accountName: ""
     }
-
-    console.log(this.state);
   }
-
+  
   popAlert() {
     this.props.pushAlert(['success', 'ohboy']);
     showAlert(this.props.alerts);
@@ -158,7 +156,6 @@ class Accounts extends Component {
 
 const mapStateToProps = state => ({
   linkToken: state.accountsReducer.linkToken,
-  error: state.checksReducer.error,
   alerts: state.alertsReducer.alerts,
   isFetching: state.accountsReducer.isFetching,
   accounts: state.accountsReducer.accounts,
@@ -172,4 +169,4 @@ const mapActionsToProps = {
   pushAlert
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Accounts);
+export default connect(mapStateToProps, mapActionsToProps)(Account);
