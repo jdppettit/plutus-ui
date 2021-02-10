@@ -16,8 +16,8 @@ export default function App() {
     <Router>
       <Switch>
         <Route exact path="/accounts/:accountId/income/:incomeId/expense/create" component={CreateExpense} />
-        <Route exact path="/accounts/:accountId/income/:incomeId" component={Income} />
         <Route exact path="/accounts/:accountId/income/create" component={CreateIncome} />
+        <Route exact path="/accounts/:accountId/income/:incomeId" component={Income} />
         <Route exact path="/accounts/:accountId" component={Account} />
         <Route exact path="/accounts" component={Accounts} />
         <Route exact path="/" component={Default} />

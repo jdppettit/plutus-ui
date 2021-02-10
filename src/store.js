@@ -8,13 +8,15 @@ import accountsReducer from './features/accounts/reducer';
 import incomeReducer from './features/income/reducer';
 import transactionsReducer from './features/transactions/reducer';
 import expensesReducer from './features/expenses/reducer';
+import eventsReducer from './features/events/reducer';
 
 const allReducers = combineReducers({
   alertsReducer,
   accountsReducer,
   incomeReducer,
   transactionsReducer,
-  expensesReducer
+  expensesReducer,
+  eventsReducer
 })
 
 let allStoreEnhancers = compose(
