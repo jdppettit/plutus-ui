@@ -22,6 +22,7 @@ import Loading from '../../components/Loading';
 import TransactionsTable from '../../components/TransactionsTable';
 import IncomesTable from '../../components/IncomesTable';
 import EventsTable from '../../components/EventsTable';
+import MatchTable from '../../components/MatchTable'
 import moment from 'moment';
 import { isObject } from 'reactstrap/lib/utils';
 
@@ -96,6 +97,11 @@ class Default extends Component {
             : (
               <div>
                 <h1>{ this.props.account.description }</h1>
+                <MatchTable
+                  account={this.props.account}
+                  events={this.props.events}
+                  transactions={this.props.transactions}
+                />
                 <Pagination aria-label="Page navigation example">
                   <PaginationItem>
                     <PaginationLink previous onClick={this.decrementDate}/>

@@ -115,18 +115,17 @@ class Account extends Component {
             ? <Loading />
             : (
               <div>
-                            <AccountsTable
-              accounts={this.props.accounts} 
-            />
-            <PlaidLink
-              token={this.props.linkToken}
-              onSuccess={this.onSuccess}
-              env="sandbox"
-            >
-              Connect a new account
-            </PlaidLink>
-
-            </div>
+                <AccountsTable
+                  accounts={this.props.accounts} 
+                />
+                <PlaidLink
+                  token={this.props.linkToken}
+                  onSuccess={this.onSuccess}
+                  env="sandbox"
+                >
+                  Connect a new account
+                </PlaidLink>
+              </div>
             )
           }
           <Modal

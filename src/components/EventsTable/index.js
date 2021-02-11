@@ -6,6 +6,7 @@ import {
 
 class EventsTable extends Component {
   render() {
+    console.log(this.props.events);
     let events = this.props.events || []
     return (
       <Table>
@@ -28,7 +29,7 @@ class EventsTable extends Component {
               <td>{value.type}</td>
               <td>{value.description}</td>
               <td>{value.amount}</td>
-              <td>{value.settled}</td>
+              <td>{value.settled === true ? "True" : "False"}</td>
             </tr>
           )
         })}
