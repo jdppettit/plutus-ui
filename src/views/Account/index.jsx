@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Navigation from '../../components/navigation';
 import { getAccount } from '../../features/accounts/actions';
 //import { getIncome } from '../../features/income/actions';
-import { getAccountTransactions } from '../../features/transactions/actions';
+import { getTransactionsWindow } from '../../features/transactions/actions';
 import { getAccountIncomes } from '../../features/income/actions';
 import { getEventsWindow } from '../../features/events/actions';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
@@ -49,7 +49,7 @@ class Default extends Component {
     let endWindow = moment(this.state.currentMonthWindow, 'MMMM, YYYY').clone().endOf('month').format('YYYY-MM-DD');
 
     await this.props.getAccount(this.state.accountId);
-    await this.props.getAccountTransactions(this.state.accountId);
+    await this.props.getTransactionsWindow(this.state.accountId, startWindow, endWindow);
     await this.props.getAccountIncomes(this.state.accountId);
     await this.props.getEventsWindow(this.state.accountId, startWindow, endWindow)
   }
@@ -67,6 +67,7 @@ class Default extends Component {
     let endWindow = moment(this.state.currentMonthWindow, 'MMMM, YYYY').clone().endOf('month').format('YYYY-MM-DD');
 
     await this.props.getEventsWindow(this.state.accountId, startWindow, endWindow)
+    await this.props.getTransactionsWindow(this.state.accountId, startWindow, endWindow);
   }
 
   async decrementDate(e) {
@@ -82,6 +83,7 @@ class Default extends Component {
     let endWindow = moment(this.state.currentMonthWindow, 'MMMM, YYYY').clone().endOf('month').format('YYYY-MM-DD');
 
     await this.props.getEventsWindow(this.state.accountId, startWindow, endWindow)
+    await this.props.getTransactionsWindow(this.state.accountId, startWindow, endWindow);
   }
 
   render() {
@@ -141,7 +143,7 @@ const mapStateToProps = state => ({
 
 const mapActionsToProps = {
   getAccount,
-  getAccountTransactions,
+  getTransactionsWindow,
   getAccountIncomes,
   getEventsWindow,
   popAlert,
