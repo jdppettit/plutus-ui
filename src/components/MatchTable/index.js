@@ -28,6 +28,21 @@ class EventsTable extends Component {
       <tbody>
           <tr key={account.id}>
             <td>{account.description}</td>
+            <td>Current Account Balance</td>
+            <td className={account.balance > 0 ? "text-success" : "text-danger"}>
+              {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(account.balance)}
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Less Pending Expenses</td>
+            <td className={account.balance > 0 ? "text-success" : "text-danger"}>
+              {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(calculateBalance(events, account.balance))}
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Computed Available Balance</td>
             <td className={account.balance > 0 ? "text-success" : "text-danger"}>
               {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(calculateBalance(events, account.balance))}
             </td>

@@ -16,7 +16,12 @@ import {
   Input,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import TransactionsTable from '../../components/TransactionsTable';
@@ -38,11 +43,20 @@ class Default extends Component {
 
     this.incrementDate = this.incrementDate.bind(this);
     this.decrementDate = this.decrementDate.bind(this);
+    this.tabToggle = this.tabToggle.bind(this);
 
     this.state = {
       accountId: accountId,
-      currentMonthWindow: moment().format('MMMM, YYYY')
+      currentMonthWindow: moment().format('MMMM, YYYY'),
+      tabActive: "1"
     }
+  }
+
+  async tabToggle(tab) {
+    console.log(tab);
+    await this.setState({
+      tabActive: tab 
+    })
   }
 
   async componentDidMount() {
@@ -96,12 +110,50 @@ class Default extends Component {
             ? <Loading />
             : (
               <div>
-                <h1>{ this.props.account.description }</h1>
-                <MatchTable
-                  account={this.props.account}
-                  events={this.props.events}
-                  transactions={this.props.transactions}
-                />
+                <div>
+                  <Nav tabs>
+                    <NavItem>
+                      <NavLink
+                        className={this.state.tabActive == "1" ? "active" : ""}
+                        onClick={() => {this.tabToggle("1") }}
+                        href="#"
+                      >
+                        Cash Analysis
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        className={this.state.tabActive == "2" ? "active" : ""}
+                        onClick={() => {this.tabToggle("2") }}
+                        href="#"
+                      >
+                        Transactions
+                      </NavLink>
+                    </NavItem>
+                    <NavItem>
+                      <NavLink
+                        className={this.state.tabActive == "3" ? "active" : ""}
+                        onClick={() => {this.tabToggle("3") }}
+                        href="#"
+                      >
+                        Income
+                      </NavLink>
+                     </NavItem>
+                     <NavItem>
+                      <NavLink
+                        className={this.state.tabActive == "4" ? "active" : ""}
+                        onClick={() => {this.tabToggle("4") }}
+                        href="#"
+                      >
+                        Events
+                      </NavLink>
+                     </NavItem>
+                  </Nav>
+                </div>
+
+                <div>
+                  <h1>{ this.props.account.description }</h1>
+                </div>
                 <Pagination aria-label="Page navigation example">
                   <PaginationItem>
                     <PaginationLink previous onClick={this.decrementDate}/>
@@ -115,17 +167,33 @@ class Default extends Component {
                     <PaginationLink next onClick={this.incrementDate}/>
                   </PaginationItem>
                 </Pagination>
-                <EventsTable
-                  events={this.props.events}
-                />
-                <TransactionsTable
-                  transactions={this.props.transactions}
-                />
-                <IncomesTable
-                  incomes={this.props.incomes}
-                />
-                <a className="btn btn-success" href={`/accounts/${this.state.accountId}/income/create`}>Create Income</a>
-              </div>
+
+                <TabContent activeTab={this.state.tabActive}>
+                  <TabPane tabId="1">
+                    <MatchTable
+                      account={this.props.account}
+                      events={this.props.events}
+                      transactions={this.props.transactions}
+                    />
+                  </TabPane>
+                  <TabPane tabId="2">
+                    <TransactionsTable
+                      transactions={this.props.transactions}
+                    />
+                  </TabPane>
+                  <TabPane tabId="3">
+                    <IncomesTable
+                      incomes={this.props.incomes}
+                    />
+                    <a className="btn btn-success" href={`/accounts/${this.state.accountId}/income/create`}>Create Income</a>
+                  </TabPane>
+                  <TabPane tabId="4">
+                    <EventsTable
+                      events={this.props.events}
+                    />
+                  </TabPane>
+                </TabContent>
+            </div>
             )
           }
         </Container>
