@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Navigation from '../../components/navigation';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
+import { getAccount } from '../../features/accounts/actions';
+import { getIncome } from '../../features/income/actions';
 import { createExpense } from '../../features/expenses/actions';
 import {
   Button,
@@ -9,7 +11,9 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 
@@ -36,6 +40,16 @@ class CreateExpense extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  async componentDidMount() {
+    await this.props.getAccount(
+      this.state.accountId
+    )
+    await this.props.getIncome(
+      this.state.accountId,
+      this.state.incomeId
+    )
+  }
+
   async onSubmit(e) {
     e.preventDefault();
     let description = e.target[0].value;
@@ -58,6 +72,15 @@ class CreateExpense extends Component {
             ? <Loading />
             : (
               <div>
+                <Breadcrumb>
+                  <BreadcrumbItem><a href="/accounts">Accounts</a></BreadcrumbItem>
+                  <BreadcrumbItem><a href={`/accounts/${this.props.account.id}`}>{this.props.account.description}</a></BreadcrumbItem>
+                  <BreadcrumbItem><a href={`/accounts/${this.props.account.id}/income/${this.props.income.id}`}>{this.props.income.description}</a></BreadcrumbItem>
+                  <BreadcrumbItem active>Create Expense</BreadcrumbItem>
+                </Breadcrumb>
+                <div style={{ padding: "1em"}}>
+                  <h1>Create Expense</h1>
+                </div>
                 <Form onSubmit={this.onSubmit}>
                   <FormGroup>
                     <Label for="description">Description</Label>
@@ -91,14 +114,19 @@ const mapStateToProps = state => ({
   linkToken: state.accountsReducer.linkToken,
   alerts: state.alertsReducer.alerts,
   isFetching: state.accountsReducer.isFetching
-    || state.expensesReducer.isFetching,
+    || state.expensesReducer.isFetching
+    || state.incomeReducer.isFetching,
   accounts: state.accountsReducer.accounts,
+  account: state.accountsReducer.account,
+  income: state.incomeReducer.income
 });
 
 const mapActionsToProps = {
   popAlert,
   pushAlert,
-  createExpense
+  createExpense,
+  getAccount,
+  getIncome
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateExpense);

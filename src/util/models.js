@@ -13,6 +13,7 @@ export const normalize = (iterable) => {
       settled: settled
     })
   })
+  console.log(normalized_iterable);
   return normalized_iterable;
 }
 

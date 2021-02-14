@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import Navigation from '../../components/navigation';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import { getIncome } from '../../features/income/actions';
+import { getAccount } from '../../features/accounts/actions';
 import { getIncomeExpenses } from '../../features/expenses/actions';
 import {
   Button,
   Container,
-  Form,
-  FormGroup,
-  Label,
-  Input
+  Breadcrumb,
+  BreadcrumbItem
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import ExpensesTable from '../../components/ExpensesTable';
@@ -37,6 +36,9 @@ class Income extends Component {
   }
 
   async componentDidMount() {
+    await this.props.getAccount(
+      this.state.accountId
+    )
     await this.props.getIncome(
       this.state.accountId,
       this.state.incomeId
@@ -49,6 +51,7 @@ class Income extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <Navigation />
@@ -57,7 +60,14 @@ class Income extends Component {
             ? <Loading />
             : (
               <div>
-                <h1>{this.props.income.description}</h1>
+                <Breadcrumb>
+                  <BreadcrumbItem><a href="/accounts">Accounts</a></BreadcrumbItem>
+                  <BreadcrumbItem><a href={`/accounts/${this.props.account.id}`}>{this.props.account.description}</a></BreadcrumbItem>
+                  <BreadcrumbItem active>Income</BreadcrumbItem>
+                </Breadcrumb>
+                <div style={{ padding: "1em"}}>
+                  <h1>{this.props.income.description} - Income</h1>
+                </div>
                 <ExpensesTable
                   expenses={this.props.expenses}
                 />
@@ -83,11 +93,13 @@ const mapStateToProps = state => ({
     || state.expensesReducer.isFetching,
   income: state.incomeReducer.income,
   expenses: state.expensesReducer.expenses,
+  account: state.accountsReducer.account
 });
 
 const mapActionsToProps = {
   getIncome,
   getIncomeExpenses,
+  getAccount,
   popAlert,
   pushAlert
 }

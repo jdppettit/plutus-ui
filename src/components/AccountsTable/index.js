@@ -11,16 +11,18 @@ class AccountsTable extends Component {
       <Table>
         <thead>
           <tr>
-            <th>Account ID</th>
-            <th>Account Description</th>
+            <th>Description</th>
+            <th>Current Balance</th>
+            <th>Computed Balance</th>
           </tr>
         </thead>
         <tbody>
         {accounts.map((value, index) => {
           return (
             <tr key={index}>
-              <td><a href={`/accounts/${value.id}`}>{value.id}</a></td>
-              <td>{value.description}</td>
+              <td><a href={`/accounts/${value.id}`}>{value.description}</a></td>
+              <td>{value.balance}</td>
+              <td>{value.computed_balance}</td>
             </tr>
           )
         })}

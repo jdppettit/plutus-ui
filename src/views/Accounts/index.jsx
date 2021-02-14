@@ -11,7 +11,9 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'reactstrap';
 import { PlaidLink } from 'react-plaid-link';
 import Loading from '../../components/Loading';
@@ -115,6 +117,12 @@ class Account extends Component {
             ? <Loading />
             : (
               <div>
+                <Breadcrumb>
+                  <BreadcrumbItem active>Accounts</BreadcrumbItem>
+                </Breadcrumb>
+                <div style={{ padding: "1em"}}>
+                  <h1>Accounts</h1>
+                </div>
                 <AccountsTable
                   accounts={this.props.accounts} 
                 />

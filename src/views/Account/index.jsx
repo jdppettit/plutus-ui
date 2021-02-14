@@ -21,7 +21,9 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import TransactionsTable from '../../components/TransactionsTable';
@@ -110,11 +112,15 @@ class Default extends Component {
             ? <Loading />
             : (
               <div>
+                <Breadcrumb>
+                  <BreadcrumbItem><a href="/accounts">Accounts</a></BreadcrumbItem>
+                  <BreadcrumbItem active>{this.props.account.description}</BreadcrumbItem>
+                </Breadcrumb>
                 <div>
                   <Nav tabs>
                     <NavItem>
                       <NavLink
-                        className={this.state.tabActive == "1" ? "active" : ""}
+                        className={this.state.tabActive === "1" ? "active" : ""}
                         onClick={() => {this.tabToggle("1") }}
                         href="#"
                       >
@@ -123,7 +129,7 @@ class Default extends Component {
                     </NavItem>
                     <NavItem>
                       <NavLink
-                        className={this.state.tabActive == "2" ? "active" : ""}
+                        className={this.state.tabActive === "2" ? "active" : ""}
                         onClick={() => {this.tabToggle("2") }}
                         href="#"
                       >
@@ -132,7 +138,7 @@ class Default extends Component {
                     </NavItem>
                     <NavItem>
                       <NavLink
-                        className={this.state.tabActive == "3" ? "active" : ""}
+                        className={this.state.tabActive === "3" ? "active" : ""}
                         onClick={() => {this.tabToggle("3") }}
                         href="#"
                       >
@@ -141,7 +147,7 @@ class Default extends Component {
                      </NavItem>
                      <NavItem>
                       <NavLink
-                        className={this.state.tabActive == "4" ? "active" : ""}
+                        className={this.state.tabActive === "4" ? "active" : ""}
                         onClick={() => {this.tabToggle("4") }}
                         href="#"
                       >
@@ -151,7 +157,7 @@ class Default extends Component {
                   </Nav>
                 </div>
 
-                <div>
+                <div style={{ padding: "1em"}}>
                   <h1>{ this.props.account.description }</h1>
                 </div>
                 <Pagination aria-label="Page navigation example">
