@@ -10,3 +10,33 @@ export const doGetEventsWindowRequest = async (
   baseURL: config.BASE_PATH,
   url: `api/v1/account/${accountId}/event?window_start="${windowStart}"&window_end="${windowEnd}"`
 })
+
+export const doUpdateEventRequest = async (
+  accountId,
+  eventId,
+  description,
+  amount,
+  settled
+) => axios({
+  method: 'PUT',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/account/${accountId}/event/${eventId}`,
+  data: {
+    description,
+    amount,
+    settled
+  }
+})
+
+export const doUpdateEventAmountRequest = async (
+  accountId,
+  eventId,
+  amount
+) => axios({
+  method: 'PUT',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/account/${accountId}/event/${eventId}`,
+  data: {
+    amount
+  }
+})

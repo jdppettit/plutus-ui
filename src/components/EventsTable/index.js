@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import {
   Table
 } from 'reactstrap';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 class EventsTable extends Component {
   render() {
@@ -18,6 +20,7 @@ class EventsTable extends Component {
             <th>Event Description</th>
             <th>Event Amount</th>
             <th>Event Settled</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -30,6 +33,11 @@ class EventsTable extends Component {
               <td>{value.description}</td>
               <td>{value.amount}</td>
               <td>{value.settled === true ? "True" : "False"}</td>
+              <td>
+                <a href="#" onClick={() => this.props.handleEdit(value.id, value.amount)}>
+                  <FontAwesomeIcon icon={faPencilAlt} />
+                </a>
+              </td>
             </tr>
           )
         })}

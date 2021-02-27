@@ -63,7 +63,6 @@ class Account extends Component {
   }
 
   async onSuccess(publicToken, metadata) {
-    console.log("success");
     console.log(metadata);
     await this.setState({
       modalIsOpen: true,

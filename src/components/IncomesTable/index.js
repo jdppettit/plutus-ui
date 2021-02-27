@@ -5,7 +5,6 @@ import {
 } from 'reactstrap';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { deleteIncome } from '../../features/income/actions';
 
 class IncomesTable extends Component {
   render() {

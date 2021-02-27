@@ -4,7 +4,7 @@ import Navigation from '../../components/navigation';
 import { getAccount } from '../../features/accounts/actions';
 import { getTransactionsWindow } from '../../features/transactions/actions';
 import { getAccountIncomes } from '../../features/income/actions';
-import { getEventsWindow } from '../../features/events/actions';
+import { getEventsWindow, updateEventAmount } from '../../features/events/actions';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import {
   Container,
@@ -17,7 +17,13 @@ import {
   TabContent,
   TabPane,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Modal,
+  Button,
+  Form,
+  FormGroup,
+  Label,
+  Input
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import TransactionsTable from '../../components/TransactionsTable';
@@ -26,6 +32,9 @@ import EventsTable from '../../components/EventsTable';
 import MatchTable from '../../components/MatchTable'
 import moment from 'moment';
 import { redirectTo } from '../../util/general';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+
 
 class Default extends Component {
   constructor(props) {
@@ -40,11 +49,18 @@ class Default extends Component {
     this.incrementDate = this.incrementDate.bind(this);
     this.decrementDate = this.decrementDate.bind(this);
     this.tabToggle = this.tabToggle.bind(this);
+    this.handleEventEdit = this.handleEventEdit.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleAmountChange = this.handleAmountChange.bind(this);
+    this.modalDismiss = this.modalDismiss.bind(this);
 
     this.state = {
       accountId: accountId,
       currentMonthWindow: moment().format('MMMM, YYYY'),
-      tabActive: "1"
+      tabActive: "1",
+      modalIsOpen: false,
+      amount: 0.00,
+      modalEventId: 0,
     }
   }
 
@@ -95,6 +111,40 @@ class Default extends Component {
 
     await this.props.getEventsWindow(this.state.accountId, startWindow, endWindow)
     await this.props.getTransactionsWindow(this.state.accountId, startWindow, endWindow);
+  }
+
+  async handleEventEdit(eventId, amount) {
+    this.setState({
+      modalIsOpen: true,
+      amount: amount,
+      modalEventId: eventId
+    });
+  }
+
+  async modalDismiss() {
+    await this.setState({
+      modalIsOpen: false,
+      amount: 0.00,
+      modalEventId: 0
+    });
+  }
+
+  async onSubmit(e) {
+    console.log("foo");
+    e.preventDefault();
+    console.log("hi")
+    await this.props.updateEventAmount(
+      this.state.accountId,
+      this.state.modalEventId,
+      this.state.amount
+    )
+    redirectTo(`/accounts/${this.state.accountId}`)
+  }
+
+  handleAmountChange(e) {
+    if(e.target && e.target.value) {
+      this.setState({amount: e.target.value})
+    }
   }
 
   render() {
@@ -190,9 +240,35 @@ class Default extends Component {
                   <TabPane tabId="4">
                     <EventsTable
                       events={this.props.events}
+                      handleEdit={this.handleEventEdit}
                     />
                   </TabPane>
                 </TabContent>
+                <Modal
+                  isOpen={this.state.modalIsOpen}
+                >
+                  <div style={{ padding: "1em" }}>
+                    <div>
+                    <div style={{ textAlign: "right"}}>
+                        <FontAwesomeIcon icon={faTimes} color="grey" onClick={this.modalDismiss}/>
+                      </div>
+                        <h2>Update Event</h2>
+                    </div>
+                    <Form onSubmit={this.onSubmit}>
+                      <FormGroup>
+                        <Label for="description">Amount</Label>
+                        <Input
+                          type="text"
+                          name="amount"
+                          id="amount"
+                          value={this.state.amount}
+                          onChange={this.handleAmountChange}
+                        />
+                        <Button className="btn btn-success" type="submit">Save</Button>
+                      </FormGroup>
+                    </Form>
+                  </div>
+                </Modal>
             </div>
             )
           }
@@ -207,7 +283,8 @@ const mapStateToProps = state => ({
   alerts: state.alertsReducer.alerts,
   isFetching: state.accountsReducer.isFetching 
     || state.incomeReducer.isFetching 
-    || state.transactionsReducer.isFetching,
+    || state.transactionsReducer.isFetching
+    || state.eventsReducer.isFetching,
   accounts: state.accountsReducer.accounts,
   account: state.accountsReducer.account,
   transactions: state.transactionsReducer.transactions,
@@ -220,6 +297,7 @@ const mapActionsToProps = {
   getTransactionsWindow,
   getAccountIncomes,
   getEventsWindow,
+  updateEventAmount,
   popAlert,
   pushAlert
 }
