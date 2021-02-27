@@ -16,6 +16,7 @@ import {
   BreadcrumbItem
 } from 'reactstrap';
 import Loading from '../../components/Loading';
+import { redirectTo } from '../../util/general';
 
 class CreateExpense extends Component {
   constructor(props) {
@@ -53,14 +54,21 @@ class CreateExpense extends Component {
   async onSubmit(e) {
     e.preventDefault();
     let description = e.target[0].value;
-    let amount = e.target[1].value;
+    let transactionDescription = e.target[1].value;
+    let recurring = e.target[2].value === "true" ? true : false;
+    let amount = e.target[3].value;
+    let month = e.target[4].value ? parseInt(e.target[4].value) : e.target[4].value;
 
     await this.props.createExpense(
       this.state.accountId,
       this.state.incomeId,
       amount,
-      description
+      description,
+      transactionDescription,
+      recurring,
+      month
     )
+    redirectTo(`/accounts/${this.state.accountId}/income/${this.state.incomeId}`);
   }
   
   render() {
@@ -88,7 +96,28 @@ class CreateExpense extends Component {
                       type="text"
                       name="description"
                       id="description"
+                      required
                     />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="transactionDescription">Transaction Description</Label>
+                    <Input
+                      type="text"
+                      name="transactionDescription"
+                      id="transactionDescription"
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup> 
+                    <Label for="recurring">Recurring</Label>
+                    <Input 
+                      type="select" 
+                      name="recurring" 
+                      id="recurring"
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </Input>
                   </FormGroup>
                   <FormGroup>
                     <Label for="amount">Amount</Label>
@@ -97,6 +126,15 @@ class CreateExpense extends Component {
                       name="amount"
                       id="amount"
                       step="0.01"
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="dayOfMonth">Month</Label>
+                    <Input
+                      type="text"
+                      name="month"
+                      id="month"
                     />
                   </FormGroup>
                   <Button className="btn btn-success" type="submit">Add expense</Button>

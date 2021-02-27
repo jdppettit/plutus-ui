@@ -19,6 +19,7 @@ import { PlaidLink } from 'react-plaid-link';
 import Loading from '../../components/Loading';
 import AccountsTable from '../../components/AccountsTable'
 import Modal from 'react-modal';
+import { redirectTo } from '../../util/general';
 
 class Account extends Component {
   constructor(props) {
@@ -106,6 +107,7 @@ class Account extends Component {
       publicToken: "",
       description: ""
     });
+    redirectTo('/accounts')
   }
 
   render() {
@@ -129,7 +131,7 @@ class Account extends Component {
                 <PlaidLink
                   token={this.props.linkToken}
                   onSuccess={this.onSuccess}
-                  env="sandbox"
+                  env="development"
                 >
                   Connect a new account
                 </PlaidLink>

@@ -12,6 +12,7 @@ import {
   Input
 } from 'reactstrap';
 import Loading from '../../components/Loading';
+import { redirectTo } from '../../util/general';
 
 class CreateIncome extends Component {
   constructor(props) {
@@ -34,9 +35,10 @@ class CreateIncome extends Component {
     e.preventDefault();
     let description = e.target[0].value;
     let amount = e.target[1].value;
-    let recurring = e.target[2].value == "true" ? true : false;
+    let recurring = e.target[2].value === "true" ? true : false;
     let dayOfWeek = e.target[3].value ? parseInt(e.target[3].value) : e.target[3].value;
     let dayOfMonth = e.target[4].value ? parseInt(e.target[4].value) : e.target[4].value;
+    let month = e.target[5].value ? parseInt(e.target[5].value) : e.target[5].value;
 
     await this.props.createIncome(
       this.state.accountId,
@@ -44,8 +46,10 @@ class CreateIncome extends Component {
       dayOfMonth,
       dayOfWeek,
       amount,
-      description
+      description,
+      month
     )
+    redirectTo(`/accounts/${this.state.accountId}`);
   }
   
   render() {
@@ -108,6 +112,14 @@ class CreateIncome extends Component {
                       type="text"
                       name="dayOfMonth"
                       id="dayOfMonth"
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="dayOfMonth">Month</Label>
+                    <Input
+                      type="text"
+                      name="month"
+                      id="month"
                     />
                   </FormGroup>
                   <Button className="btn btn-success" type="submit">Add income</Button>

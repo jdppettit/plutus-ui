@@ -8,6 +8,9 @@ import {
   GET_INCOME_REQUEST,
   GET_INCOME_SUCCESS,
   GET_INCOME_ERROR,
+  DELETE_INCOME_REQUEST,
+  DELETE_INCOME_SUCCESS,
+  DELETE_INCOME_ERROR,
 } from './actions';
 
 export default function incomeReducer(
@@ -23,6 +26,7 @@ export default function incomeReducer(
     case CREATE_INCOME_REQUEST:
     case GET_ACCOUNT_INCOMES_REQUEST:
     case GET_INCOME_REQUEST:
+    case DELETE_INCOME_REQUEST:
       return {
         ...state,
         error: null,
@@ -46,9 +50,15 @@ export default function incomeReducer(
         isFetching: false,
         income: action.payload.income
       }
+    case DELETE_INCOME_SUCCESS:
+      return {
+        ...state,
+        isFetching: false
+      }
     case CREATE_INCOME_ERROR:
     case GET_ACCOUNT_INCOMES_ERROR:
     case GET_INCOME_ERROR:
+    case DELETE_INCOME_ERROR: 
       return {
         ...state,
         isFetching: false,

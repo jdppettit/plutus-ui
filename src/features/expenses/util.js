@@ -14,7 +14,10 @@ export const doCreateExpenseRequest = async (
   accountId,
   incomeId,
   amount,
-  description
+  description,
+  transactionDescription,
+  recurring,
+  month
 ) => axios({
   method: 'POST',
   baseURL: config.BASE_PATH,
@@ -22,7 +25,10 @@ export const doCreateExpenseRequest = async (
   data: {
     account_id: accountId,
     income_id: incomeId,
+    transaction_description: transactionDescription,
     amount,
-    description
+    description,
+    recurring,
+    month
   }
 })

@@ -2,6 +2,7 @@ import {
   doCreateIncomeRequest,
   doGetAccountIncomesRequest,
   doGetIncomeRequest,
+  doDeleteIncomeRequest,
 } from './util';
 
 export const CREATE_INCOME_REQUEST = 'createIncomeRequest';
@@ -15,6 +16,10 @@ export const GET_ACCOUNT_INCOMES_ERROR = 'getAccountIncomesError';
 export const GET_INCOME_REQUEST = 'getIncomeRequest';
 export const GET_INCOME_SUCCESS = 'getIncomeSuccess';
 export const GET_INCOME_ERROR = 'getIncomeError';
+
+export const DELETE_INCOME_REQUEST = 'deleteIncomeRequest';
+export const DELETE_INCOME_SUCCESS = 'deleteIncomeSuccess';
+export const DELETE_INCOME_ERROR = 'deleteIncomeError';
 
 export function createIncomeRequest() {
   return {
@@ -42,7 +47,8 @@ export function createIncome(
   dayOfMonth,
   dayOfWeek,
   amount,
-  description
+  description,
+  month
 ) {
   return async (dispatch) => {
     try {
@@ -53,7 +59,8 @@ export function createIncome(
         dayOfMonth,
         dayOfWeek,
         amount,
-        description
+        description,
+        month
       );
       dispatch(createIncomeSuccess(result.data));
     } catch (e) {
@@ -132,6 +139,44 @@ export function getIncome(
       dispatch(getIncomeSuccess(result.data));
     } catch (e) {
       dispatch(getIncomeError(e));
+    }
+  };
+}
+
+export function deleteIncomeRequest() {
+  return {
+    type: DELETE_INCOME_REQUEST
+  };
+}
+
+export function deleteIncomeSuccess(data) {
+  return {
+    type: DELETE_INCOME_SUCCESS,
+    payload: data
+  };
+}
+
+export function deleteIncomeError(error) {
+  return {
+    type: DELETE_INCOME_ERROR,
+    payload: error
+  };
+}
+
+export function deleteIncome(
+  accountId,
+  incomeId
+) {
+  return async (dispatch) => {
+    try {
+      dispatch(deleteIncomeRequest());
+      const result = await doDeleteIncomeRequest(
+        accountId,
+        incomeId,
+      );
+      dispatch(deleteIncomeSuccess(result.data));
+    } catch (e) {
+      dispatch(deleteIncomeError(e));
     }
   };
 }

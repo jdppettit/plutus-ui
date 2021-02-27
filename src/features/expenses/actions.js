@@ -66,7 +66,15 @@ export function createExpenseError(error) {
   }
 };
 
-export function createExpense(accountId, incomeId, amount, description) {
+export function createExpense(
+  accountId, 
+  incomeId, 
+  amount, 
+  description, 
+  transactionDescription,
+  recurring,
+  month
+) {
   return async (dispatch) => {
     try {
       dispatch(createExpenseRequest());
@@ -74,7 +82,10 @@ export function createExpense(accountId, incomeId, amount, description) {
         accountId,
         incomeId,
         amount,
-        description
+        description,
+        transactionDescription,
+        recurring,
+        month
       );
       dispatch(createExpenseSuccess(result.data));
     } catch (e) {

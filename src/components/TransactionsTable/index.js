@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   Table
 } from 'reactstrap';
-import { formatMoney } from '../../util/money';
+import { formatMoney, getTransactionClass } from '../../util/money';
 
 class TransactionsTable extends Component {
   render() {
@@ -25,7 +25,7 @@ class TransactionsTable extends Component {
               <td>{value.id}</td>
               <td>{value.date}</td>
               <td>{value.description}</td>
-              <td className={value.amount > 0 ? "text-success" : "text-danger"}>
+              <td className={getTransactionClass(value.amount)}>
                 { formatMoney(value.amount) }
               </td>
             </tr>

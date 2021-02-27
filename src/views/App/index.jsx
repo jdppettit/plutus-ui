@@ -10,6 +10,7 @@ import Account from '../Account';
 import CreateIncome from '../CreateIncome';
 import Income from '../Income';
 import CreateExpense from '../CreateExpense';
+import DeleteIncome from '../DeleteIncome';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
       <Switch>
         <Route exact path="/accounts/:accountId/income/:incomeId/expense/create" component={CreateExpense} />
         <Route exact path="/accounts/:accountId/income/create" component={CreateIncome} />
+        <Route exact path="/accounts/:accountId/income/:incomeId/delete" component={DeleteIncome} />
         <Route exact path="/accounts/:accountId/income/:incomeId" component={Income} />
         <Route exact path="/accounts/:accountId" component={Account} />
         <Route exact path="/accounts" component={Accounts} />

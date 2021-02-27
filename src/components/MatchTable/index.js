@@ -8,7 +8,7 @@ import {
   PopoverBody
 } from 'reactstrap';
 import { normalize } from '../../util/models';
-import { formatMoney } from '../../util/money';
+import { formatMoney, getAccountClass, getTransactionClass } from '../../util/money';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faChartLine, faMoneyBill, faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
 
@@ -91,7 +91,7 @@ class EventsTable extends Component {
           <tr key={account.id}>
             <td>{account.description}</td>
             <td>Current Account Balance</td>
-            <td className={account.balance > 0 ? "text-success" : "text-danger"}>
+            <td className={getAccountClass(account.balance)}>
               { formatMoney(account.balance) }
             </td>
           </tr>
@@ -106,7 +106,7 @@ class EventsTable extends Component {
           <tr>
             <td></td>
             <td>Computed Available Balance</td>
-            <td className={account.computed_balance > 0 ? "text-success" : "text-danger"}>
+            <td className={getAccountClass(account.computed_balance)}>
               { formatMoney(account.computed_balance) }
             </td>
           </tr>
@@ -123,7 +123,7 @@ class EventsTable extends Component {
               <td>{moment(value.date).format('ll')}</td>
               <td>{this.determineIcon(value.type)} {value.type}</td>
               <td>{value.description}</td>
-              <td className={value.amount > 0 ? "text-success" : "text-danger"}>
+              <td className={getTransactionClass(value.amount)}>
                 { formatMoney(value.amount) }
               </td>
               <td>{value.settled === false ? "Settled" : "Pending"}</td>

@@ -2,18 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Navigation from '../../components/navigation';
 import { getAccount } from '../../features/accounts/actions';
-//import { getIncome } from '../../features/income/actions';
 import { getTransactionsWindow } from '../../features/transactions/actions';
 import { getAccountIncomes } from '../../features/income/actions';
 import { getEventsWindow } from '../../features/events/actions';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import {
-  Button,
   Container,
-  Form,
-  FormGroup,
-  Label,
-  Input,
   Pagination,
   PaginationItem,
   PaginationLink,
@@ -31,7 +25,7 @@ import IncomesTable from '../../components/IncomesTable';
 import EventsTable from '../../components/EventsTable';
 import MatchTable from '../../components/MatchTable'
 import moment from 'moment';
-import { isObject } from 'reactstrap/lib/utils';
+import { redirectTo } from '../../util/general';
 
 class Default extends Component {
   constructor(props) {
