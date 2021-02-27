@@ -5,12 +5,32 @@ import { getLinkToken, createAccount, getAccounts } from '../../features/account
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import {
   Container,
+  Card,
+  Row,
+  Col
 } from 'reactstrap';
 import Loading from '../../components/Loading';
+import { formatMoney } from '../../util/money';
 
 class Default extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      totalFunds: 0.00,
+      computedFunds: 0.00
+    }
+  }
+
+  async componentDidMount() {
+    await this.props.getAccounts()
+    console.log(this.props.accounts);
+    this.props.accounts.forEach(account => {
+      this.setState({
+        totalFunds: this.state.totalFunds + account.balance,
+        computedFunds: this.state.computedFunds + account.computed_balance
+      })
+    })
   }
 
   render() {
@@ -21,7 +41,30 @@ class Default extends Component {
           {this.props.isFetching
             ? <Loading />
             : (
-              <div></div>
+              <div>
+                  <Card>
+                    <Row style={{padding: "1em"}}>
+                      <Col>
+                        <div style={{textAlign: "center", fontWeight: "bold"}}>
+                          Total Funds
+                        </div>
+                      </Col>
+                      <Col>
+                        {formatMoney(this.state.totalFunds)}
+                      </Col>
+                    </Row>
+                    <Row style={{padding: "1em"}}>
+                      <Col>
+                        <div style={{textAlign: "center", fontWeight: "bold"}}>
+                          Computed Total
+                        </div>
+                      </Col>
+                      <Col>
+                        {formatMoney(this.state.computedFunds)}
+                      </Col>
+                    </Row>
+                  </Card>
+              </div>
             )
           }
         </Container>
@@ -38,8 +81,6 @@ const mapStateToProps = state => ({
 });
 
 const mapActionsToProps = {
-  getLinkToken,
-  createAccount,
   getAccounts,
   popAlert,
   pushAlert
