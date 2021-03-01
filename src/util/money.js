@@ -15,3 +15,18 @@ export const getTransactionClass = (money, type) => {
     return 'text-danger';
   }
 }
+
+export const determineSettledStyle = settled => {
+  if (settled === false) {
+    console.log({ fontStyle: 'italic' })
+    return { fontStyle: 'italic' }
+  }
+  return {}
+}
+
+export const determineSettledClass = settled => {
+  if (settled === false) {
+    return 'text-muted'
+  }
+  return ''
+}

@@ -4,14 +4,20 @@ import { connect } from 'react-redux';
 import {
   Table,
   Popover,
-  PopoverHeader,
   PopoverBody,
   Card
 } from 'reactstrap';
 import { normalize } from '../../util/models';
-import { formatMoney, getAccountClass, getTransactionClass } from '../../util/money';
+import { 
+  formatMoney, 
+  getAccountClass, 
+  getTransactionClass, 
+  determineSettledStyle, 
+  determineSettledClass 
+} from '../../util/money';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faChartLine, faMoneyBill, faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
+import ReactTooltip from 'react-tooltip';
 
 class EventsTable extends Component {
   constructor(props) {
@@ -34,13 +40,13 @@ class EventsTable extends Component {
     let icon;
     switch(type) {
       case "expense":
-        icon = <FontAwesomeIcon icon={faHandHoldingUsd} />
+        icon = <FontAwesomeIcon icon={faHandHoldingUsd} className='fa-2x' data-tip='Expense' />
         break;
       case "transaction": 
-        icon = <FontAwesomeIcon icon={faMoneyBill} />
+        icon = <FontAwesomeIcon icon={faMoneyBill} className='fa-2x' data-tip='Transaction' />
         break;
       case "income": 
-        icon = <FontAwesomeIcon icon={faChartLine} />
+        icon = <FontAwesomeIcon icon={faChartLine} className='fa-2x' data-tip='Income' />
         break;
       default:
         icon = ""
@@ -53,7 +59,6 @@ class EventsTable extends Component {
     let account = this.props.account || {}
     let events = this.props.events || []
     let transactions = this.props.transactions || []
-    console.log(transactions);
     if (account) {
       events = events.concat(transactions);
     }
@@ -61,12 +66,13 @@ class EventsTable extends Component {
     events.sort(function(a, b) {
       var c = new Date(a.date);
       var d = new Date(b.date);
-      return c-d;
+      return d-c;
     });
     let account_less = account.balance - account.computed_balance;
     let deducted_expenses = account.computed_expenses || [];
     return (
       <div>
+        <ReactTooltip />
         <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover}>
           <PopoverBody>
             <Table borderless>
@@ -120,15 +126,15 @@ class EventsTable extends Component {
         <tbody>
         {events.map((value, index) => {
           return (
-            <tr key={index}>
-              <td>{value.id}</td>
-              <td>{moment(value.date).format('ll')}</td>
-              <td>{this.determineIcon(value.type)} {value.type}</td>
-              <td>{value.description}</td>
+            <tr key={index} style={determineSettledStyle(value.settled)} className={determineSettledClass(value.settled)}>
+              <td>{this.determineIcon(value.type)}</td>
+              <td>
+                <span style={{display: 'block' }}>{value.description}</span>
+                <span className="text-muted">{moment(value.date).format('ll')}</span>
+              </td>
               <td className={getTransactionClass(value.amount, value.type)}>
                 { formatMoney(value.amount) }
               </td>
-              <td>{value.settled === false ? "Settled" : "Pending"}</td>
             </tr>
           )
         })}

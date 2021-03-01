@@ -49,6 +49,12 @@ class Navigation extends Component {
         <NavItem>
           <NavLink href="/accounts">Accounts</NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink href="#">Buckets</NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink href="#">Settings</NavLink>
+        </NavItem>
       </Nav>
     )
   }

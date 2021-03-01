@@ -3,29 +3,29 @@ import { connect } from 'react-redux';
 import {
   Table
 } from 'reactstrap';
-import { formatMoney, getTransactionClass } from '../../util/money';
+import { 
+  formatMoney, 
+  getTransactionClass,
+  determineSettledStyle, 
+  determineSettledClass 
+} from '../../util/money';
+import { formatDate } from '../../util/general';
 
 class TransactionsTable extends Component {
   render() {
     let transactions = this.props.transactions || []
+    console.log(transactions);
     return (
-      <Table>
-        <thead>
-          <tr>
-            <th>Transaction ID</th>
-            <th>Transaction Date</th>
-            <th>Transaction Description</th>
-            <th>Transaction Amount</th>
-          </tr>
-        </thead>
+      <Table striped>
         <tbody>
         {transactions.map((value, index) => {
           return (
-            <tr key={index}>
-              <td>{value.id}</td>
-              <td>{value.date}</td>
-              <td>{value.description}</td>
-              <td className={getTransactionClass(value.amount)}>
+            <tr key={index} style={determineSettledStyle(!value.pending)} className={determineSettledClass(!value.pending)}>
+              <td>
+                <span style={{display: 'block' }}>{value.description}</span>
+                <span className="text-muted">{formatDate(value.date)}</span>
+              </td>
+              <td className={getTransactionClass(value.amount, 'transaction')}>
                 { formatMoney(value.amount) }
               </td>
             </tr>

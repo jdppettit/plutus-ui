@@ -13,13 +13,11 @@ export const normalize = (iterable) => {
       settled: settled
     })
   })
-  console.log(normalized_iterable);
   return normalized_iterable;
 }
 
 export const calculateBalance = (iterable, balance) => {
   let current = moment().clone().startOf('month');
-  console.log(current);
   iterable.forEach(i => {
     if (moment(i.date).isSameOrAfter(current) 
         && (i.settled === "false" || i.settled === null || i.settled === undefined) 
