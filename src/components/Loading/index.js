@@ -13,7 +13,7 @@ class Loading extends Component {
           color="#000000"
           height={100}
           width={100}
-          timeout={1000} //3 secs
+          timeout={15000} //3 secs
           className="spinner"
         />
       </div>

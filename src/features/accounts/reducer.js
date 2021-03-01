@@ -11,6 +11,9 @@ import {
   GET_ACCOUNT_REQUEST,
   GET_ACCOUNT_SUCCESS,
   GET_ACCOUNT_ERROR,
+  REFRESH_DATA_REQUEST,
+  REFRESH_DATA_SUCCESS,
+  REFRESH_DATA_ERROR,
 } from './actions';
 
 export default function accountsReducer(
@@ -28,6 +31,7 @@ export default function accountsReducer(
     case CREATE_ACCOUNT_REQUEST:
     case GET_ACCOUNTS_REQUEST:
     case GET_ACCOUNT_REQUEST:
+    case REFRESH_DATA_REQUEST:
       return {
         ...state,
         error: null,
@@ -40,6 +44,7 @@ export default function accountsReducer(
         linkToken: action.payload.linkToken
       };
     case CREATE_ACCOUNT_SUCCESS:
+    case REFRESH_DATA_SUCCESS:
       return {
         ...state,
         isFetching: false
@@ -60,6 +65,7 @@ export default function accountsReducer(
     case CREATE_ACCOUNT_ERROR:
     case GET_ACCOUNTS_ERROR:
     case GET_ACCOUNT_ERROR:
+    case REFRESH_DATA_ERROR:
       return {
         ...state,
         isFetching: false,

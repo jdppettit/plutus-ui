@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Navigation from '../../components/navigation';
-import { getAccount } from '../../features/accounts/actions';
+import { getAccount, refreshData } from '../../features/accounts/actions';
 import { getTransactionsWindow } from '../../features/transactions/actions';
 import { getAccountIncomes } from '../../features/income/actions';
 import { getEventsWindow, updateEventAmount } from '../../features/events/actions';
@@ -31,10 +31,10 @@ import IncomesTable from '../../components/IncomesTable';
 import EventsTable from '../../components/EventsTable';
 import MatchTable from '../../components/MatchTable'
 import moment from 'moment';
-import { redirectTo } from '../../util/general';
+import { redirectTo, accountTabSettings } from '../../util/general';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
-
+import { faTimes, faSync } from '@fortawesome/free-solid-svg-icons'
+import qs from 'qs';
 
 class Default extends Component {
   constructor(props) {
@@ -53,6 +53,7 @@ class Default extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.modalDismiss = this.modalDismiss.bind(this);
+    this.refreshData = this.refreshData.bind(this);
 
     this.state = {
       accountId: accountId,
@@ -65,7 +66,6 @@ class Default extends Component {
   }
 
   async tabToggle(tab) {
-    console.log(tab);
     await this.setState({
       tabActive: tab 
     })
@@ -79,6 +79,12 @@ class Default extends Component {
     await this.props.getTransactionsWindow(this.state.accountId, startWindow, endWindow);
     await this.props.getAccountIncomes(this.state.accountId);
     await this.props.getEventsWindow(this.state.accountId, startWindow, endWindow)
+
+    let tab = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+    
+    if (tab && tab.tab && accountTabSettings[tab.tab].tab_number) {
+      this.tabToggle(accountTabSettings[tab.tab].tab_number);
+    }
   }
 
   async incrementDate(e) {
@@ -147,6 +153,30 @@ class Default extends Component {
     }
   }
 
+  async refreshData() {
+    await this.props.refreshData()
+  }
+
+  showDatePicker() {
+    if (accountTabSettings[this.state.tabActive].show_date_picker === true) {
+      return (
+        <Pagination aria-label="Page navigation example">
+          <PaginationItem>
+            <PaginationLink previous onClick={this.decrementDate}/>
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationLink>
+              {this.state.currentMonthWindow}
+            </PaginationLink>
+          </PaginationItem>
+          <PaginationItem >
+            <PaginationLink next onClick={this.incrementDate}/>
+          </PaginationItem>
+        </Pagination>
+      )
+    }
+  }
+
   render() {
     return (
       <div>
@@ -201,22 +231,16 @@ class Default extends Component {
                   </Nav>
                 </div>
 
-                <div style={{ padding: "1em"}}>
-                  <h1>{ this.props.account.description }</h1>
+                <div className="clearfix" style={{ padding: "1em"}}>
+                  <div style={{ float: "left"}}>
+                    <h1>{ this.props.account.description }</h1>
+                  </div>
+                  <div style={{ float: "right" }}>
+                    <FontAwesomeIcon style={{ cursor: "pointer" }} className={"fa-2x"} icon={faSync} color="grey" onClick={this.refreshData} border/>
+                  </div>
                 </div>
-                <Pagination aria-label="Page navigation example">
-                  <PaginationItem>
-                    <PaginationLink previous onClick={this.decrementDate}/>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink>
-                      {this.state.currentMonthWindow}
-                    </PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem >
-                    <PaginationLink next onClick={this.incrementDate}/>
-                  </PaginationItem>
-                </Pagination>
+
+                { this.showDatePicker() }
 
                 <TabContent activeTab={this.state.tabActive}>
                   <TabPane tabId="1">
@@ -298,6 +322,7 @@ const mapActionsToProps = {
   getAccountIncomes,
   getEventsWindow,
   updateEventAmount,
+  refreshData,
   popAlert,
   pushAlert
 }

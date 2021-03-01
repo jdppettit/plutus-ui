@@ -33,3 +33,9 @@ export const doGetAccountRequest = async (accountId) => axios({
   baseURL: config.BASE_PATH,
   url: `api/v1/account/${accountId}`
 })
+
+export const doRefreshDataRequest = async () => axios({
+  method: 'GET',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/refresh_data`
+})

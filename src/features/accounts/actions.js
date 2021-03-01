@@ -2,7 +2,8 @@ import {
   doLinkTokenRequest,
   doCreateAccountRequest,
   doGetAccountsRequest,
-  doGetAccountRequest
+  doGetAccountRequest,
+  doRefreshDataRequest
 } from './util';
 
 export const GET_LINK_TOKEN_REQUEST = 'getLinkTokenRequest';
@@ -20,6 +21,10 @@ export const GET_ACCOUNTS_ERROR = 'getAccountsError';
 export const GET_ACCOUNT_REQUEST = 'getAccountRequest';
 export const GET_ACCOUNT_SUCCESS = 'getAccountSuccess';
 export const GET_ACCOUNT_ERROR = 'getAccountError';
+
+export const REFRESH_DATA_REQUEST = 'refreshDataRequest';
+export const REFRESH_DATA_SUCCESS = 'refreshDataSuccess';
+export const REFRESH_DATA_ERROR = 'refreshDataError';
 
 export function getLinkTokenRequest() {
   return {
@@ -145,6 +150,38 @@ export function getAccount(accountId) {
       dispatch(getAccountSuccess(result.data));
     } catch (e) {
       dispatch(getAccountError(e));
+    }
+  }
+}
+
+export function refreshDataRequest() {
+  return {
+    type: REFRESH_DATA_REQUEST
+  };
+}
+
+export function refreshDataSuccess(data) {
+  return {
+    type: REFRESH_DATA_SUCCESS,
+    payload: data
+  };
+}
+
+export function refreshDataError(error) {
+  return {
+    type: REFRESH_DATA_ERROR,
+    payload: error
+  };
+}
+
+export function refreshData(accountId) {
+  return async (dispatch) => {
+    try {
+      dispatch(refreshDataRequest());
+      const result = await doRefreshDataRequest(accountId);
+      dispatch(refreshDataSuccess(result.data));
+    } catch (e) {
+      dispatch(refreshDataError(e));
     }
   }
 }

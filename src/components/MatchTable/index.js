@@ -5,7 +5,8 @@ import {
   Table,
   Popover,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
+  Card
 } from 'reactstrap';
 import { normalize } from '../../util/models';
 import { formatMoney, getAccountClass, getTransactionClass } from '../../util/money';
@@ -68,7 +69,7 @@ class EventsTable extends Component {
       <div>
         <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover}>
           <PopoverBody>
-            <Table>
+            <Table borderless>
               <thead>
                 <tr>
                   <th>Expense</th>
@@ -86,35 +87,36 @@ class EventsTable extends Component {
             </Table>
           </PopoverBody>
       </Popover>
-      <Table>
-      <tbody>
-          <tr key={account.id}>
-            <td>{account.description}</td>
-            <td>Current Account Balance</td>
-            <td className={getAccountClass(account.balance)}>
-              { formatMoney(account.balance) }
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Less Pending Expenses</td>
-            <td className="text-danger">
-              { formatMoney(account_less) }
-              <FontAwesomeIcon id="Popover1" icon={faInfoCircle} color="grey" style={{ "marginLeft": "5px" }}/>
-            </td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>Computed Available Balance</td>
-            <td className={getAccountClass(account.computed_balance)}>
-              { formatMoney(account.computed_balance) }
-            </td>
-          </tr>
-
-      </tbody>
-    </Table>
-    <br/>
-      <Table>
+      <Card style={{ padding: "1em" }}>
+        <Table borderless>
+          <tbody>
+              <tr key={account.id}>
+                <td></td>
+                <td>Current Account Balance</td>
+                <td className={getAccountClass(account.balance)}>
+                  { formatMoney(account.balance) }
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Less Pending Expenses</td>
+                <td className="text-danger">
+                  { formatMoney(account_less) }
+                  <FontAwesomeIcon id="Popover1" icon={faInfoCircle} color="grey" style={{ "marginLeft": "5px" }}/>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Computed Available Balance</td>
+                <td className={getAccountClass(account.computed_balance)}>
+                  { formatMoney(account.computed_balance) }
+                </td>
+              </tr>
+          </tbody>
+        </Table>
+      </Card>
+      <br/>
+      <Table className="table-striped">
         <tbody>
         {events.map((value, index) => {
           return (
@@ -123,7 +125,7 @@ class EventsTable extends Component {
               <td>{moment(value.date).format('ll')}</td>
               <td>{this.determineIcon(value.type)} {value.type}</td>
               <td>{value.description}</td>
-              <td className={getTransactionClass(value.amount)}>
+              <td className={getTransactionClass(value.amount, value.type)}>
                 { formatMoney(value.amount) }
               </td>
               <td>{value.settled === false ? "Settled" : "Pending"}</td>

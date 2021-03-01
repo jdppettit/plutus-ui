@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {
   Table
 } from 'reactstrap';
+import { formatMoney } from '../../util/money';
 
 class AccountsTable extends Component {
   render() {
@@ -21,8 +22,8 @@ class AccountsTable extends Component {
           return (
             <tr key={index}>
               <td><a href={`/accounts/${value.id}`}>{value.description}</a></td>
-              <td>{value.balance}</td>
-              <td>{value.computed_balance}</td>
+              <td>{ formatMoney(value.balance) }</td>
+              <td>{ formatMoney(value.computed_balance) }</td>
             </tr>
           )
         })}
