@@ -13,13 +13,15 @@ import {
   Label,
   Input,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Modal
 } from 'reactstrap';
 import { PlaidLink } from 'react-plaid-link';
 import Loading from '../../components/Loading';
 import AccountsTable from '../../components/AccountsTable'
-import Modal from 'react-modal';
 import { redirectTo } from '../../util/general';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
 
 class Account extends Component {
   constructor(props) {
@@ -31,6 +33,7 @@ class Account extends Component {
     this.popAlert = this.popAlert.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.modalDismiss = this.modalDismiss.bind(this);
 
     this.state = {
       modalIsOpen: false,
@@ -109,6 +112,13 @@ class Account extends Component {
     redirectTo('/accounts')
   }
 
+  async modalDismiss() {
+    await this.setState({
+      description: "",
+      modalIsOpen: false
+    });
+  }
+
   render() {
     return (
       <div>
@@ -134,28 +144,34 @@ class Account extends Component {
                 >
                   Connect a new account
                 </PlaidLink>
+                <Modal
+                  isOpen={this.state.modalIsOpen}
+                >
+                  <div style={{ padding: "1em" }}>
+                    <div>
+                      <div style={{ textAlign: "right"}}>
+                        <FontAwesomeIcon icon={faTimes} color="grey" onClick={this.modalDismiss}/>
+                      </div>
+                      <h2>Add Account</h2>
+                    </div>
+                    <Form onSubmit={this.onSubmit}>
+                      <FormGroup>
+                        <Label for="description">Description</Label>
+                        <Input
+                          type="text"
+                          name="description"
+                          id="description"
+                          value={this.state.description}
+                          onChange={this.handleDescriptionChange}
+                        />
+                        <Button className="btn btn-success" type="submit">Add Account</Button>
+                      </FormGroup>
+                    </Form>
+                  </div>
+                </Modal>
               </div>
             )
           }
-          <Modal
-            isOpen={this.state.modalIsOpen}
-          >
-            <div>
-              <Form onSubmit={this.onSubmit}>
-                <FormGroup>
-                  <Label for="description">Description</Label>
-                  <Input
-                    type="text"
-                    name="description"
-                    id="description"
-                    value={this.state.description}
-                    onChange={this.handleDescriptionChange}
-                  />
-                  <Button className="btn btn-success" type="submit">Add Account</Button>
-                </FormGroup>
-              </Form>
-            </div>
-          </Modal>
         </Container>
       </div>
     )

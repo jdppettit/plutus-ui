@@ -136,9 +136,7 @@ class Default extends Component {
   }
 
   async onSubmit(e) {
-    console.log("foo");
     e.preventDefault();
-    console.log("hi")
     await this.props.updateEventAmount(
       this.state.accountId,
       this.state.modalEventId,
