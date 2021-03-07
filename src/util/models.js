@@ -4,7 +4,7 @@ const moment = require('moment');
 export const normalize = (iterable) => {
   let normalized_iterable = []
   iterable.forEach(i => {
-    let settled = R.path(['settled'], i) === undefined ? R.path(['pending'], i) : R.path(['settled'], i)
+    let settled = R.path(['settled'], i) === undefined ? !R.path(['pending'], i) : R.path(['settled'], i)
     normalized_iterable.push({
       date: R.path(['anticipated_date'], i) || R.path(['date'], i),
       amount: i.amount || 0.00,

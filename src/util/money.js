@@ -18,15 +18,20 @@ export const getTransactionClass = (money, type) => {
 
 export const determineSettledStyle = settled => {
   if (settled === false) {
-    console.log({ fontStyle: 'italic' })
+    return { fontStyle: 'italic' }
+  } else if (settled === true) {
+    return {}
+  } else {
     return { fontStyle: 'italic' }
   }
-  return {}
 }
 
 export const determineSettledClass = settled => {
   if (settled === false) {
     return 'text-muted'
+  } else if (settled === true) {
+    return ''
+  } else {
+    return 'text-muted'
   }
-  return ''
 }

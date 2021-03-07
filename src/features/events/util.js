@@ -8,7 +8,7 @@ export const doGetEventsWindowRequest = async (
 ) => axios({
   method: 'GET',
   baseURL: config.BASE_PATH,
-  url: `api/v1/account/${accountId}/event?window_start="${windowStart}"&window_end="${windowEnd}"`
+  url: `api/v1/account/${accountId}/event?window_start="${windowStart}"&window_end="${windowEnd}"&include_settled=true`
 })
 
 export const doUpdateEventRequest = async (

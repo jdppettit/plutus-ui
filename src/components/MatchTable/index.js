@@ -70,6 +70,7 @@ class EventsTable extends Component {
     });
     let account_less = account.balance - account.computed_balance;
     let deducted_expenses = account.computed_expenses || [];
+    console.log(events);
     return (
       <div>
         <ReactTooltip />
