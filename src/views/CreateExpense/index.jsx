@@ -87,7 +87,7 @@ class CreateExpense extends Component {
                   <BreadcrumbItem active>Create Expense</BreadcrumbItem>
                 </Breadcrumb>
                 <div style={{ padding: "1em"}}>
-                  <h1>Create Expense</h1>
+                  <h3>Create Expense</h3>
                 </div>
                 <Form onSubmit={this.onSubmit}>
                   <FormGroup>
