@@ -17,13 +17,19 @@ class TransactionsTable extends Component {
     console.log(transactions);
     return (
       <Table striped>
+        <thead>
+          <tr>
+            <th>Details</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
         <tbody>
         {transactions.map((value, index) => {
           return (
             <tr key={index} style={determineSettledStyle(!value.pending)} className={determineSettledClass(!value.pending)}>
               <td>
-                <span style={{display: 'block' }}>{value.description}</span>
-                <span className="text-muted">{formatDate(value.date)}</span>
+                <span className="table-description">{value.description}</span>
+                <span className="table-date text-muted">{formatDate(value.date)}</span>
               </td>
               <td className={getTransactionClass(value.amount, 'transaction')}>
                 { formatMoney(value.amount) }

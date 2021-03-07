@@ -1,0 +1,25 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+.plutus-logo-text {
+  padding-left: .4em;
+  font-size: 26px;
+}
+
+.plutus-logo-svg {
+  margin-top: -8px;
+}
+
+.table-description {
+  display: block;
+  font-size: 18px;
+}
+
+.table-amount {
+  font-size: 18px;
+}
+
+.table-date {
+  font-size: 14px;
+}

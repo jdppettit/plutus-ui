@@ -8,11 +8,11 @@ export const getAccountClass = money => {
 
 export const getTransactionClass = (money, type) => {
   if (type === 'income') {
-    return 'text-success';
+    return 'table-amount text-success';
   } else if (type === 'transaction') {
-    return money > 0 ? 'text-danger' : 'text-success';
+    return money > 0 ? 'table-amount text-danger' : 'table-amount text-success';
   } else if (type === 'expense') {
-    return 'text-danger';
+    return 'table-amount text-danger';
   }
 }
 

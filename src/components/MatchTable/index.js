@@ -5,7 +5,9 @@ import {
   Table,
   Popover,
   PopoverBody,
-  Card
+  Card,
+  CardHeader,
+  CardBody
 } from 'reactstrap';
 import { normalize } from '../../util/models';
 import { 
@@ -55,6 +57,10 @@ class EventsTable extends Component {
     return icon;
   }
 
+  capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+
   render() {
     let account = this.props.account || {}
     let events = this.props.events || []
@@ -94,12 +100,16 @@ class EventsTable extends Component {
             </Table>
           </PopoverBody>
       </Popover>
-      <Card style={{ padding: "1em" }}>
+      <Card >
+        <CardHeader>
+          <span>Balance Details</span>
+        </CardHeader>
+        <CardBody>
         <Table borderless>
           <tbody>
               <tr key={account.id}>
                 <td></td>
-                <td>Current Account Balance</td>
+                <td>Reported Balance</td>
                 <td className={getAccountClass(account.balance)}>
                   { formatMoney(account.balance) }
                 </td>
@@ -121,17 +131,25 @@ class EventsTable extends Component {
               </tr>
           </tbody>
         </Table>
+        </CardBody>
       </Card>
       <br/>
-      <Table className="table-striped">
+      <Table striped>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Details</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
         <tbody>
         {events.map((value, index) => {
           return (
             <tr key={index} style={determineSettledStyle(value.settled)} className={determineSettledClass(value.settled)}>
-              <td>{this.determineIcon(value.type)}</td>
+              <td>{this.capitalize(value.type)}</td>
               <td>
-                <span style={{display: 'block' }}>{value.description}</span>
-                <span className="text-muted">{moment(value.date).format('ll')}</span>
+                <span className="table-description">{value.description}</span>
+                <span className="table-date text-muted">{moment(value.date).format('ll')}</span>
               </td>
               <td className={getTransactionClass(value.amount, value.type)}>
                 { formatMoney(value.amount) }

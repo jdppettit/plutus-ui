@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Navigation from '../../components/navigation';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
+import { getAccount } from '../../features/accounts/actions';
 import { createIncome } from '../../features/income/actions';
 import {
   Button,
@@ -9,7 +10,9 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Breadcrumb,
+  BreadcrumbItem
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import { redirectTo } from '../../util/general';
@@ -29,6 +32,12 @@ class CreateIncome extends Component {
     }
 
     this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  async componentDidMount() {
+    await this.props.getAccount(
+      this.state.accountId
+    )
   }
 
   async onSubmit(e) {
@@ -61,6 +70,14 @@ class CreateIncome extends Component {
             ? <Loading />
             : (
               <div>
+                <Breadcrumb>
+                  <BreadcrumbItem><a href="/accounts">Accounts</a></BreadcrumbItem>
+                  <BreadcrumbItem><a href={`/accounts/${this.props.account.id}`}>{this.props.account.description}</a></BreadcrumbItem>
+                  <BreadcrumbItem active>Create Income</BreadcrumbItem>
+                </Breadcrumb>
+                <div style={{ padding: "1em"}}>
+                  <h3>Create Income</h3>
+                </div>
                 <Form onSubmit={this.onSubmit}>
                   <FormGroup>
                     <Label for="description">Description</Label>
@@ -139,12 +156,14 @@ const mapStateToProps = state => ({
   alerts: state.alertsReducer.alerts,
   isFetching: state.accountsReducer.isFetching,
   accounts: state.accountsReducer.accounts,
+  account: state.accountsReducer.account,
 });
 
 const mapActionsToProps = {
   popAlert,
   pushAlert,
-  createIncome
+  createIncome,
+  getAccount
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(CreateIncome);

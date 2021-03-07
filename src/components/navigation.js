@@ -63,7 +63,12 @@ class Navigation extends Component {
     return (
       <div>
         <Navbar color="light" light expand="md" className="mb-3">
-          <NavbarBrand href="/"><img style={{ height: "75px" }} src="/logo.png"/></NavbarBrand>
+          <NavbarBrand href="/">
+            <img alt="Plutus Logo" style={{ height: "25px" }} className="plutus-logo-svg" src="/logo.svg"/>
+            <span className="plutus-logo-text">
+              Plutus
+            </span>
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggleOnClick} />
           <Collapse isOpen={false} navbar>
             {this.showUserInformation()}
