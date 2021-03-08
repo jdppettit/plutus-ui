@@ -131,8 +131,8 @@ class Account extends Component {
                 <Breadcrumb>
                   <BreadcrumbItem active>Accounts</BreadcrumbItem>
                 </Breadcrumb>
-                <div style={{ padding: "1em"}}>
-                  <h1>Accounts</h1>
+                <div>
+                  <h2 className="plutus-subheader">Accounts</h2>
                 </div>
                 <AccountsTable
                   accounts={this.props.accounts} 

@@ -23,3 +23,10 @@
 .table-date {
   font-size: 14px;
 }
+
+.plutus-subheader {
+  padding-top: .75em;
+  padding-bottom: .75em;
+  padding-left: 0em;
+  padding-right: 0em;
+}

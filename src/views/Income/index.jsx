@@ -65,8 +65,8 @@ class Income extends Component {
                   <BreadcrumbItem><a href={`/accounts/${this.props.account.id}`}>{this.props.account.description}</a></BreadcrumbItem>
                   <BreadcrumbItem active>Income</BreadcrumbItem>
                 </Breadcrumb>
-                <div style={{ padding: "1em"}}>
-                  <h1>{this.props.income.description} - Income</h1>
+                <div>
+                  <h2 className="plutus-subheader">{this.props.income.description} - Income</h2>
                 </div>
                 <ExpensesTable
                   expenses={this.props.expenses}

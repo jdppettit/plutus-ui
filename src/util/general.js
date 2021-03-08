@@ -26,6 +26,10 @@ export const accountTabSettings = {
     name: "events",
     show_date_picker: true
   },
+  "5": {
+    name: "account_settings",
+    show_date_picker: false
+  },
   "match": {
     tab_number: "1",
     show_date_picker: false
@@ -41,5 +45,9 @@ export const accountTabSettings = {
   "events": {
     tab_number: "4",
     show_date_picker: true
+  },
+  "account_settings": {
+    tab_number: "5",
+    show_date_picker: false
   }
 }

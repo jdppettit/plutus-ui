@@ -14,6 +14,9 @@ import {
   REFRESH_DATA_REQUEST,
   REFRESH_DATA_SUCCESS,
   REFRESH_DATA_ERROR,
+  UPDATE_ACCOUNT_REQUEST,
+  UPDATE_ACCOUNT_SUCCESS,
+  UPDATE_ACCOUNT_ERROR,
 } from './actions';
 
 export default function accountsReducer(
@@ -32,6 +35,7 @@ export default function accountsReducer(
     case GET_ACCOUNTS_REQUEST:
     case GET_ACCOUNT_REQUEST:
     case REFRESH_DATA_REQUEST:
+    case UPDATE_ACCOUNT_REQUEST:
       return {
         ...state,
         error: null,
@@ -45,6 +49,7 @@ export default function accountsReducer(
       };
     case CREATE_ACCOUNT_SUCCESS:
     case REFRESH_DATA_SUCCESS:
+    case UPDATE_ACCOUNT_SUCCESS:
       return {
         ...state,
         isFetching: false
@@ -66,6 +71,7 @@ export default function accountsReducer(
     case GET_ACCOUNTS_ERROR:
     case GET_ACCOUNT_ERROR:
     case REFRESH_DATA_ERROR:
+    case UPDATE_ACCOUNT_ERROR:
       return {
         ...state,
         isFetching: false,

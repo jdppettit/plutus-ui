@@ -30,6 +30,7 @@ import TransactionsTable from '../../components/TransactionsTable';
 import IncomesTable from '../../components/IncomesTable';
 import EventsTable from '../../components/EventsTable';
 import MatchTable from '../../components/MatchTable'
+import AccountSettings from '../../components/AccountSettings';
 import moment from 'moment';
 import { redirectTo, accountTabSettings } from '../../util/general';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -158,7 +159,7 @@ class Default extends Component {
   showDatePicker() {
     if (accountTabSettings[this.state.tabActive].show_date_picker === true) {
       return (
-        <Pagination aria-label="Page navigation example">
+        <Pagination>
           <PaginationItem>
             <PaginationLink previous onClick={this.decrementDate}/>
           </PaginationItem>
@@ -226,12 +227,21 @@ class Default extends Component {
                         Events
                       </NavLink>
                      </NavItem>
+                     <NavItem>
+                      <NavLink
+                        className={this.state.tabActive === "5" ? "active" : ""}
+                        onClick={() => {this.tabToggle("5") }}
+                        href="#"
+                      >
+                        Settings
+                      </NavLink>
+                     </NavItem>
                   </Nav>
                 </div>
 
-                <div className="clearfix" style={{ padding: "1em"}}>
+                <div className="clearfix">
                   <div style={{ float: "left"}}>
-                    <h1>{ this.props.account.description }</h1>
+                    <h3 className="plutus-subheader">{ this.props.account.description }</h3>
                   </div>
                   <div style={{ float: "right" }}>
                     <FontAwesomeIcon style={{ cursor: "pointer" }} className={"fa-2x"} icon={faSync} color="grey" onClick={this.refreshData} border/>
@@ -263,6 +273,11 @@ class Default extends Component {
                     <EventsTable
                       events={this.props.events}
                       handleEdit={this.handleEventEdit}
+                    />
+                  </TabPane>
+                  <TabPane tabId="5">
+                    <AccountSettings
+                      account={this.props.account}
                     />
                   </TabPane>
                 </TabContent>

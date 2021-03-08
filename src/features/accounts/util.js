@@ -22,6 +22,25 @@ export const doCreateAccountRequest = async (
   }
 })
 
+export const doUpdateAccountRequest = async (
+  accountId,
+  description,
+  accountType,
+  balanceToMaintain,
+  includeInOverall,
+) => axios({
+  method: 'PUT',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/account/${accountId}`,
+  data: {
+    account_id: accountId,
+    description,
+    type: accountType,
+    balance_to_maintain: balanceToMaintain,
+    include_in_overall: includeInOverall,
+  }
+})
+
 export const doGetAccountsRequest = async () => axios({
   method: 'GET',
   baseURL: config.BASE_PATH,

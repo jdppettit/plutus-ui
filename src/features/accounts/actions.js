@@ -3,7 +3,8 @@ import {
   doCreateAccountRequest,
   doGetAccountsRequest,
   doGetAccountRequest,
-  doRefreshDataRequest
+  doRefreshDataRequest,
+  doUpdateAccountRequest,
 } from './util';
 
 export const GET_LINK_TOKEN_REQUEST = 'getLinkTokenRequest';
@@ -25,6 +26,10 @@ export const GET_ACCOUNT_ERROR = 'getAccountError';
 export const REFRESH_DATA_REQUEST = 'refreshDataRequest';
 export const REFRESH_DATA_SUCCESS = 'refreshDataSuccess';
 export const REFRESH_DATA_ERROR = 'refreshDataError';
+
+export const UPDATE_ACCOUNT_REQUEST = 'updateAccountRequest';
+export const UPDATE_ACCOUNT_SUCCESS = 'updateAccountSuccess';
+export const UPDATE_ACCOUNT_ERROR = 'updateAccountError';
 
 export function getLinkTokenRequest() {
   return {
@@ -182,6 +187,50 @@ export function refreshData(accountId) {
       dispatch(refreshDataSuccess(result.data));
     } catch (e) {
       dispatch(refreshDataError(e));
+    }
+  }
+}
+
+export function updateAccountRequest() {
+  return {
+    type: UPDATE_ACCOUNT_REQUEST
+  };
+}
+
+export function updateAccountSuccess(data) {
+  return {
+    type: UPDATE_ACCOUNT_SUCCESS,
+    payload: data
+  };
+}
+
+export function updateAccountError(error) {
+  return {
+    type: UPDATE_ACCOUNT_ERROR,
+    payload: error
+  };
+}
+
+export function updateAccount(  
+  accountId,
+  description,
+  accountType,
+  balanceToMaintain,
+  includeInOverall
+) {
+  return async (dispatch) => {
+    try {
+      dispatch(updateAccountRequest());
+      const result = await doUpdateAccountRequest(  
+        accountId,
+        description,
+        accountType,
+        balanceToMaintain,
+        includeInOverall
+      );
+      dispatch(updateAccountSuccess(result.data));
+    } catch (e) {
+      dispatch(updateAccountError(e));
     }
   }
 }

@@ -13,7 +13,9 @@ import {
   Label,
   Input,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  Card,
+  CardBody
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import { redirectTo } from '../../util/general';
@@ -86,59 +88,63 @@ class CreateExpense extends Component {
                   <BreadcrumbItem><a href={`/accounts/${this.props.account.id}/income/${this.props.income.id}`}>{this.props.income.description}</a></BreadcrumbItem>
                   <BreadcrumbItem active>Create Expense</BreadcrumbItem>
                 </Breadcrumb>
-                <div style={{ padding: "1em"}}>
-                  <h3>Create Expense</h3>
+                <div>
+                  <h2 className="plutus-subheader">Create Expense</h2>
                 </div>
-                <Form onSubmit={this.onSubmit}>
-                  <FormGroup>
-                    <Label for="description">Description</Label>
-                    <Input
-                      type="text"
-                      name="description"
-                      id="description"
-                      required
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="transactionDescription">Transaction Description</Label>
-                    <Input
-                      type="text"
-                      name="transactionDescription"
-                      id="transactionDescription"
-                      required
-                    />
-                  </FormGroup>
-                  <FormGroup> 
-                    <Label for="recurring">Recurring</Label>
-                    <Input 
-                      type="select" 
-                      name="recurring" 
-                      id="recurring"
-                    >
-                      <option value="true">Yes</option>
-                      <option value="false">No</option>
-                    </Input>
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="amount">Amount</Label>
-                    <Input
-                      type="number"
-                      name="amount"
-                      id="amount"
-                      step="0.01"
-                      required
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="dayOfMonth">Month</Label>
-                    <Input
-                      type="text"
-                      name="month"
-                      id="month"
-                    />
-                  </FormGroup>
-                  <Button className="btn btn-success" type="submit">Add expense</Button>
-                </Form>
+                <Card>
+                  <CardBody>
+                    <Form onSubmit={this.onSubmit}>
+                      <FormGroup>
+                        <Label for="description">Description</Label>
+                        <Input
+                          type="text"
+                          name="description"
+                          id="description"
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <Label for="transactionDescription">Transaction Description</Label>
+                        <Input
+                          type="text"
+                          name="transactionDescription"
+                          id="transactionDescription"
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup> 
+                        <Label for="recurring">Recurring</Label>
+                        <Input 
+                          type="select" 
+                          name="recurring" 
+                          id="recurring"
+                        >
+                          <option value="true">Yes</option>
+                          <option value="false">No</option>
+                        </Input>
+                      </FormGroup>
+                      <FormGroup>
+                        <Label for="amount">Amount</Label>
+                        <Input
+                          type="number"
+                          name="amount"
+                          id="amount"
+                          step="0.01"
+                          required
+                        />
+                      </FormGroup>
+                      <FormGroup>
+                        <Label for="dayOfMonth">Month</Label>
+                        <Input
+                          type="text"
+                          name="month"
+                          id="month"
+                        />
+                      </FormGroup>
+                      <Button className="btn btn-success" type="submit">Add expense</Button>
+                    </Form>
+                  </CardBody>
+                </Card>
               </div>
             )
           }
