@@ -61,6 +61,18 @@ class EventsTable extends Component {
     return string.charAt(0).toUpperCase() + string.slice(1)
   }
 
+  showBalanceToMaintain(account) {
+    if (account.balance_to_maintain && account.balance_to_maintain > 0) {
+      return (
+        <tr>
+          <td></td>
+          <td>Less Balance to Maintain</td>
+          <td className="text-danger">{ formatMoney(account.balance_to_maintain) }</td>
+        </tr>
+      )
+    }
+  }
+
   render() {
     let account = this.props.account || {}
     let events = this.props.events || []
@@ -122,6 +134,7 @@ class EventsTable extends Component {
                   <FontAwesomeIcon id="Popover1" icon={faInfoCircle} color="grey" style={{ "marginLeft": "5px" }}/>
                 </td>
               </tr>
+              { this.showBalanceToMaintain(this.props.account) }
               <tr>
                 <td></td>
                 <td>Computed Available Balance</td>

@@ -24,12 +24,13 @@ class Default extends Component {
 
   async componentDidMount() {
     await this.props.getAccounts()
-    console.log(this.props.accounts);
     this.props.accounts.forEach(account => {
-      this.setState({
-        totalFunds: this.state.totalFunds + account.balance,
-        computedFunds: this.state.computedFunds + account.computed_balance
-      })
+      if (account.include_in_overall) {
+        this.setState({
+          totalFunds: this.state.totalFunds + account.balance,
+          computedFunds: this.state.computedFunds + account.computed_balance
+        })
+      }
     })
   }
 
