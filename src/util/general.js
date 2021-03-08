@@ -46,8 +46,13 @@ export const accountTabSettings = {
     tab_number: "4",
     show_date_picker: true
   },
+
   "account_settings": {
     tab_number: "5",
     show_date_picker: false
   }
+}
+
+export const capitalize = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1)
 }

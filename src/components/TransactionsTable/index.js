@@ -14,7 +14,6 @@ import { formatDate } from '../../util/general';
 class TransactionsTable extends Component {
   render() {
     let transactions = this.props.transactions || []
-    console.log(transactions);
     return (
       <Table striped>
         <thead>
@@ -28,10 +27,10 @@ class TransactionsTable extends Component {
           return (
             <tr key={index} style={determineSettledStyle(!value.pending)} className={determineSettledClass(!value.pending)}>
               <td>
-                <span className="table-description">{value.description}</span>
-                <span className="table-date text-muted">{formatDate(value.date)}</span>
+                <span className="table-description">{ value.description }</span>
+                <span className="table-date text-muted">{ formatDate(value.date) }</span>
               </td>
-              <td className={getTransactionClass(value.amount, 'transaction')}>
+              <td className={ getTransactionClass(value.amount, 'transaction') }>
                 { formatMoney(value.amount) }
               </td>
             </tr>

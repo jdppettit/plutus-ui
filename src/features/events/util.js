@@ -40,3 +40,16 @@ export const doUpdateEventAmountRequest = async (
     amount
   }
 })
+
+export const doUpdateEventSettledRequest = async (
+  accountId,
+  eventId,
+  settled
+) => axios({
+  method: 'PUT',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/account/${accountId}/event/${eventId}`,
+  data: {
+    settled
+  }
+})

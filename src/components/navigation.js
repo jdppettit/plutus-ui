@@ -15,6 +15,7 @@ import {
 } from 'reactstrap';
 import Avatar from 'react-avatar';
 import { ToastContainer } from 'react-toastify';
+import ReactTooltip from 'react-tooltip';
 import 'react-toastify/dist/ReactToastify.css';
 
 class Navigation extends Component {
@@ -62,6 +63,7 @@ class Navigation extends Component {
   render() {
     return (
       <div>
+        <ReactTooltip />
         <Navbar color="light" light expand="md" className="mb-3">
           <NavbarBrand href="/">
             <img alt="Plutus Logo" style={{ height: "25px" }} className="plutus-logo-svg" src="/logo.svg"/>

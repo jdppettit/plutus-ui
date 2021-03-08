@@ -10,6 +10,7 @@ import {
   CardBody
 } from 'reactstrap';
 import { normalize } from '../../util/models';
+import { capitalize, formatDate} from '../../util/general';
 import { 
   formatMoney, 
   getAccountClass, 
@@ -19,7 +20,6 @@ import {
 } from '../../util/money';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfoCircle, faChartLine, faMoneyBill, faHandHoldingUsd } from '@fortawesome/free-solid-svg-icons'
-import ReactTooltip from 'react-tooltip';
 
 class EventsTable extends Component {
   constructor(props) {
@@ -57,10 +57,6 @@ class EventsTable extends Component {
     return icon;
   }
 
-  capitalize(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1)
-  }
-
   showBalanceToMaintain(account) {
     if (account.balance_to_maintain && account.balance_to_maintain > 0) {
       return (
@@ -91,7 +87,6 @@ class EventsTable extends Component {
     console.log(events);
     return (
       <div>
-        <ReactTooltip />
         <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover}>
           <PopoverBody>
             <Table borderless>
@@ -158,11 +153,11 @@ class EventsTable extends Component {
         <tbody>
         {events.map((value, index) => {
           return (
-            <tr key={index} style={determineSettledStyle(value.settled)} className={determineSettledClass(value.settled)}>
-              <td>{this.capitalize(value.type)}</td>
+            <tr key={index} style={ determineSettledStyle(value.settled) } className={determineSettledClass(value.settled)}>
+              <td>{ capitalize(value.type) }</td>
               <td>
-                <span className="table-description">{value.description}</span>
-                <span className="table-date text-muted">{moment(value.date).format('ll')}</span>
+                <span className="table-description">{ value.description }</span>
+                <span className="table-date text-muted">{ formatDate(value.date) }</span>
               </td>
               <td className={getTransactionClass(value.amount, value.type)}>
                 { formatMoney(value.amount) }

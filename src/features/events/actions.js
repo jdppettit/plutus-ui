@@ -2,6 +2,7 @@ import {
   doGetEventsWindowRequest,
   doUpdateEventRequest,
   doUpdateEventAmountRequest,
+  doUpdateEventSettledRequest,
 } from './util';
 
 export const GET_EVENTS_WINDOW_REQUEST = 'getEventsWindowRequest';
@@ -91,6 +92,22 @@ export function updateEventAmount(accountId, eventId, amount) {
         accountId,
         eventId,
         amount
+      );
+      dispatch(updateEventSuccess(result.data));
+    } catch (e) {
+      dispatch(updateEventError(e));
+    }
+  };
+};
+
+export function updateEventSettled(accountId, eventId, settled) {
+  return async (dispatch) => {
+    try {
+      dispatch(updateEventRequest());
+      const result = await doUpdateEventSettledRequest(
+        accountId,
+        eventId,
+        settled
       );
       dispatch(updateEventSuccess(result.data));
     } catch (e) {
