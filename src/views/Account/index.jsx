@@ -246,7 +246,7 @@ class Default extends Component {
                     <h3 className="plutus-subheader">{ this.props.account.description }</h3>
                   </div>
                   <div style={{ float: "right" }}>
-                    <FontAwesomeIcon style={{ cursor: "pointer" }} className={"fa-2x"} icon={faSync} color="grey" onClick={this.refreshData} border/>
+                    <FontAwesomeIcon className={"fa-2x plutus-data-refresh"} icon={faSync} color="grey" onClick={this.refreshData} border/>
                   </div>
                 </div>
 

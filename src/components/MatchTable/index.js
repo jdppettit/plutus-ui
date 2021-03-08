@@ -69,6 +69,16 @@ class EventsTable extends Component {
     }
   }
 
+  sumPendingExpenses(account) {
+    let pending = 0.00
+    if (account && account.computed_expenses) {
+      account.computed_expenses.forEach(exp => {
+        pending += exp.amount
+      });
+    }
+    return pending;
+  }
+
   render() {
     let account = this.props.account || {}
     let events = this.props.events || []
@@ -82,7 +92,7 @@ class EventsTable extends Component {
       var d = new Date(b.date);
       return d-c;
     });
-    let account_less = account.balance - account.computed_balance;
+    let account_less = this.sumPendingExpenses(account);
     let deducted_expenses = account.computed_expenses || [];
     console.log(events);
     return (

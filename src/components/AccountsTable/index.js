@@ -9,7 +9,7 @@ class AccountsTable extends Component {
   render() {
     let accounts = this.props.accounts || []
     return (
-      <Table>
+      <Table striped>
         <thead>
           <tr>
             <th>Description</th>

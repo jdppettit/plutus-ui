@@ -34,3 +34,16 @@
 .plutus-options-icon {
   padding-left: .5em;
 }
+
+.plutus-data-refresh {
+  cursor: pointer;
+  margin-top: .25em;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.plutus-data-refresh:hover {
+  background-color:rgba(0,0,0,.03);
+}
