@@ -11,6 +11,7 @@ import {
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import { formatMoney } from '../../util/money';
+import AccountTypeFunds from '../../components/AccountTypeFunds'
 
 class Default extends Component {
   constructor(props) {
@@ -65,6 +66,14 @@ class Default extends Component {
                       </Col>
                     </Row>
                   </Card>
+                  <Row>
+                    <Col>
+                      <AccountTypeFunds accounts={this.props.accounts} />
+                    </Col>
+                    <Col>
+                      <AccountTypeFunds accounts={this.props.accounts} />
+                    </Col>
+                  </Row>
               </div>
             )
           }
