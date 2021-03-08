@@ -274,6 +274,7 @@ class Default extends Component {
                   <TabPane tabId="4">
                     <EventsTable
                       events={this.props.events}
+                      account={this.props.account}
                       handleEdit={this.handleEventEdit}
                     />
                   </TabPane>

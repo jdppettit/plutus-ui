@@ -8,26 +8,30 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactTooltip from 'react-tooltip';
 import { formatDate, capitalize } from '../../util/general';
 import { formatMoney } from '../../util/money';
+import { updateEventSettled } from '../../features/events/actions';
+import { redirectTo } from '../../util/general';
 
 class EventsTable extends Component {
-  setSettled(eventId) {
-
+  async setSettled(event, account) {
+    await this.props.updateEventSettled(account.id, event.id, true)
+    redirectTo(`/accounts/${account.id}?tab=events`)
   }
 
-  setNotSettled(eventId) {
-
+  async setNotSettled(event, account) {
+    await this.props.updateEventSettled(account.id, event.id, false)
+    redirectTo(`/accounts/${account.id}?tab=events`)
   }
 
-  renderSettledOption(event) {
+  renderSettledOption(event, account) {
     if (event && (event.settled === false || event.settled === null)) {
       return (
-        <a className="plutus-options-icon" href="#" onClick={() => this.setSettled(event.id)} data-tip="Set settled">
+        <a className="plutus-options-icon" href="#" onClick={() => this.setSettled(event, account)} data-tip="Set settled">
           <FontAwesomeIcon icon={faCheck} />
         </a>
       )
     } else if (event && event.settled === true) {
       return (
-        <a className="plutus-options-icon" href="#" onClick={() => this.setNotSettled(event.id)} data-tip="Set not settled">
+        <a className="plutus-options-icon" href="#" onClick={() => this.setNotSettled(event, account)} data-tip="Set not settled">
           <FontAwesomeIcon icon={faBan} />
         </a> 
       )
@@ -37,6 +41,7 @@ class EventsTable extends Component {
   }
   render() {
     let events = this.props.events || []
+    let account = this.props.account || {} 
     return (
       <div>
         <ReactTooltip />
@@ -64,7 +69,7 @@ class EventsTable extends Component {
                   <a href="#" onClick={() => this.props.handleEdit(value.id, value.amount)} data-tip="Edit amount">
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </a>
-                  { this.renderSettledOption(value) }
+                  { this.renderSettledOption(value, account) }
                 </td>
               </tr>
             )
@@ -76,6 +81,15 @@ class EventsTable extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  isFetching: state.accountsReducer.isFetching 
+  || state.incomeReducer.isFetching 
+  || state.transactionsReducer.isFetching
+  || state.eventsReducer.isFetching,
+});
 
-export default connect(mapStateToProps)(EventsTable);
+const mapActionToProps = {
+  updateEventSettled
+}
+
+export default connect(mapStateToProps, mapActionToProps)(EventsTable);
