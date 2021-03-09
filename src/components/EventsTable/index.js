@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import {
   Table
 } from 'reactstrap';
-import { faPencilAlt, faCheck, faBan } from '@fortawesome/free-solid-svg-icons'
+import { faPencilAlt, faCheck, faBan, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactTooltip from 'react-tooltip';
 import { formatDate, capitalize } from '../../util/general';
@@ -66,16 +66,20 @@ class EventsTable extends Component {
                 <td>{ formatMoney(value.amount) }</td>
                 <td>{value.settled === true ? "True" : "False"}</td>
                 <td>
-                  <a href="#" onClick={() => this.props.handleEdit(value.id, value.amount)} data-tip="Edit amount">
+                  <a className="plutus-options-icon" href="#" onClick={() => this.props.handleEdit(value.id, value.amount)} data-tip="Edit amount">
                     <FontAwesomeIcon icon={faPencilAlt} />
                   </a>
                   { this.renderSettledOption(value, account) }
+                  <a className="plutus-options-icon" href="#" onClick={() => this.props.handleDelete(value.id, account.id)} data-tip="Delete event">
+                    <FontAwesomeIcon icon={faTrash} />
+                  </a>
                 </td>
               </tr>
             )
           })}
           </tbody>
         </Table>
+        <a href={`/accounts/${account.id}/events/create`} className="btn btn-success">Create Event</a>
       </div>
     )
   }

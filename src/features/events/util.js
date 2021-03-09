@@ -28,6 +28,28 @@ export const doUpdateEventRequest = async (
   }
 })
 
+export const doCreateEventRequest = async (
+  accountId,
+  parentId,
+  description,
+  amount,
+  type,
+  autoSettle,
+  anticipatedDate
+) => axios({
+  method: 'POST',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/account/${accountId}/event`,
+  data: {
+    parent_id: parentId,
+    description,
+    amount,
+    type,
+    auto_settle: autoSettle,
+    anticipated_date: anticipatedDate
+  }
+})
+
 export const doUpdateEventAmountRequest = async (
   accountId,
   eventId,
@@ -52,4 +74,13 @@ export const doUpdateEventSettledRequest = async (
   data: {
     settled
   }
+})
+
+export const doDeleteEventRequest = async (
+  accountId,
+  eventId
+) => axios({
+  method: 'DELETE',
+  baseURL: config.BASE_PATH,
+  url: `api/v1/account/${accountId}/event/${eventId}`,
 })

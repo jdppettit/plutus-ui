@@ -4,7 +4,7 @@ import Navigation from '../../components/navigation';
 import { getAccount, refreshData } from '../../features/accounts/actions';
 import { getTransactionsWindow } from '../../features/transactions/actions';
 import { getAccountIncomes } from '../../features/income/actions';
-import { getEventsWindow, updateEventAmount } from '../../features/events/actions';
+import { getEventsWindow, updateEventAmount, deleteEvent } from '../../features/events/actions';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import {
   Container,
@@ -51,6 +51,7 @@ class Default extends Component {
     this.decrementDate = this.decrementDate.bind(this);
     this.tabToggle = this.tabToggle.bind(this);
     this.handleEventEdit = this.handleEventEdit.bind(this);
+    this.handleEventDelete = this.handleEventDelete.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.modalDismiss = this.modalDismiss.bind(this);
@@ -152,6 +153,11 @@ class Default extends Component {
     if(e.target && e.target.value) {
       this.setState({amount: e.target.value})
     }
+  }
+
+  async handleEventDelete(eventId, accountId) {
+    await this.props.deleteEvent(accountId, eventId);
+    redirectTo(`/accounts/${this.state.accountId}`)
   }
 
   async refreshData() {
@@ -276,6 +282,7 @@ class Default extends Component {
                       events={this.props.events}
                       account={this.props.account}
                       handleEdit={this.handleEventEdit}
+                      handleDelete={this.handleEventDelete}
                     />
                   </TabPane>
                   <TabPane tabId="5">
@@ -338,6 +345,7 @@ const mapActionsToProps = {
   getAccountIncomes,
   getEventsWindow,
   updateEventAmount,
+  deleteEvent,
   refreshData,
   popAlert,
   pushAlert
