@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
@@ -94,7 +93,6 @@ class EventsTable extends Component {
     });
     let account_less = this.sumPendingExpenses(account);
     let deducted_expenses = account.computed_expenses || [];
-    console.log(events);
     return (
       <div>
         <Popover placement="bottom" isOpen={this.state.popoverOpen} target="Popover1" toggle={this.togglePopover}>

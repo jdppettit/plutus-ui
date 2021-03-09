@@ -15,10 +15,14 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Card,
-  CardBody
+  CardBody,
+  InputGroup
 } from 'reactstrap';
 import Loading from '../../components/Loading';
 import { redirectTo } from '../../util/general';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import ReactTooltip from 'react-tooltip';
 
 class CreateExpense extends Component {
   constructor(props) {
@@ -37,10 +41,14 @@ class CreateExpense extends Component {
 
     this.state = {
       accountId: accountId,
-      incomeId: incomeId
+      incomeId: incomeId,
+      transactionDescription: "",
+      transactionSearchModalOpen: false
     }
 
     this.onSubmit = this.onSubmit.bind(this);
+    this.transactionSearch = this.transactionSearch.bind(this);
+    this.closeTransactionSearchModal = this.closeTransactionSearchModal.bind(this);
   }
 
   async componentDidMount() {
@@ -72,6 +80,14 @@ class CreateExpense extends Component {
     )
     redirectTo(`/accounts/${this.state.accountId}/income/${this.state.incomeId}`);
   }
+
+  transactionSearch() {
+    console.log("I was clicked")
+  }
+
+  closeTransactionSearchModal() {
+
+  }
   
   render() {
     return (
@@ -82,6 +98,7 @@ class CreateExpense extends Component {
             ? <Loading />
             : (
               <div>
+                <ReactTooltip />
                 <Breadcrumb>
                   <BreadcrumbItem><a href="/accounts">Accounts</a></BreadcrumbItem>
                   <BreadcrumbItem><a href={`/accounts/${this.props.account.id}`}>{this.props.account.description}</a></BreadcrumbItem>
@@ -105,12 +122,17 @@ class CreateExpense extends Component {
                       </FormGroup>
                       <FormGroup>
                         <Label for="transactionDescription">Transaction Description</Label>
+                        <InputGroup>
                         <Input
                           type="text"
                           name="transactionDescription"
                           id="transactionDescription"
                           required
                         />
+                        <Button onClick={this.transactionSearch}>
+                          <FontAwesomeIcon icon={faSearch} data-tip='Find transaction' />
+                        </Button>
+                        </InputGroup>
                       </FormGroup>
                       <FormGroup> 
                         <Label for="recurring">Recurring</Label>
