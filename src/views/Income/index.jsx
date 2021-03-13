@@ -47,7 +47,6 @@ class Income extends Component {
       this.state.accountId,
       this.state.incomeId
     )
-    console.log(this.props);
   }
 
   render() {
@@ -66,10 +65,12 @@ class Income extends Component {
                   <BreadcrumbItem active>Income</BreadcrumbItem>
                 </Breadcrumb>
                 <div>
-                  <h2 className="plutus-subheader">{this.props.income.description} - Income</h2>
+                  <h2 className="plutus-subheader">{this.props.income.description} Expenses</h2>
                 </div>
                 <ExpensesTable
                   expenses={this.props.expenses}
+                  accountId={this.state.accountId}
+                  income={this.props.income}
                 />
                 <a 
                   className="btn btn-success" 

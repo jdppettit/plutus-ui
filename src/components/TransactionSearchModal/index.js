@@ -90,7 +90,7 @@ class TransactionSearchModal extends Component {
                     <td>{value.date}</td>
                     <td>{value.description}</td>
                     <td>{formatMoney(value.amount)}</td>
-                    <td><Button onClick={() => this.props.sendTransaction(value.description)}>Select</Button></td>
+                    <td><Button onClick={() => this.props.sendTransaction(value.description, value.amount)}>Select</Button></td>
                   </tr>
                 )
               })}

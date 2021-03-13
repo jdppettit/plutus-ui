@@ -44,7 +44,10 @@ class CreateExpense extends Component {
       accountId: accountId,
       incomeId: incomeId,
       transactionDescription: "",
-      transactionSearchModalIsOpen: false
+      transactionAmount: 0.00,
+      transactionSearchModalIsOpen: false,
+      selectedTransactionDescription: "",
+      selectedTransactionAmount: null,
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -54,6 +57,7 @@ class CreateExpense extends Component {
     this.transactionSearchModalRecord = this.transactionSearchModalRecord.bind(this);
 
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleAmountChange = this.handleAmountChange.bind(this);
   }
 
   async componentDidMount() {
@@ -102,9 +106,10 @@ class CreateExpense extends Component {
     });
   }
 
-  async transactionSearchModalRecord(description) {
+  async transactionSearchModalRecord(description, amount) {
     await this.setState({
       selectedTransactionDescription: description,
+      selectedTransactionAmount: amount,
       transactionSearchModalIsOpen: false,
     });
   }
@@ -113,6 +118,14 @@ class CreateExpense extends Component {
     if (e.target) {
       await this.setState({
         selectedTransactionDescription: e.target.value
+      })
+    }
+  }
+
+  async handleAmountChange(e) {
+    if (e.target) {
+      await this.setState({
+        selectedTransactionAmount: e.target.value
       })
     }
   }
@@ -182,6 +195,8 @@ class CreateExpense extends Component {
                           name="amount"
                           id="amount"
                           step="0.01"
+                          value={this.state.selectedTransactionAmount}
+                          onChange={this.handleAmountChange}
                           required
                         />
                       </FormGroup>
