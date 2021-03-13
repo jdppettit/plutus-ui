@@ -82,8 +82,6 @@ class Default extends Component {
     await this.props.getAccountIncomes(this.state.accountId);
     await this.props.getEventsWindow(this.state.accountId, startWindow, endWindow)
 
-    console.log(this.props.account);
-
     let tab = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
     
     if (tab && tab.tab && accountTabSettings[tab.tab].tab_number) {

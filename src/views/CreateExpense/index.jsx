@@ -19,6 +19,7 @@ import {
   InputGroup
 } from 'reactstrap';
 import Loading from '../../components/Loading';
+import TransactionSearchModal from '../../components/TransactionSearchModal';
 import { redirectTo } from '../../util/general';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
@@ -43,12 +44,16 @@ class CreateExpense extends Component {
       accountId: accountId,
       incomeId: incomeId,
       transactionDescription: "",
-      transactionSearchModalOpen: false
+      transactionSearchModalIsOpen: false
     }
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.transactionSearch = this.transactionSearch.bind(this);
-    this.closeTransactionSearchModal = this.closeTransactionSearchModal.bind(this);
+    this.transactionSearchModalOnSubmit = this.transactionSearchModalOnSubmit.bind(this);
+    this.transactionSearchModalDismiss = this.transactionSearchModalDismiss.bind(this);
+    this.transactionSearchModalOpen = this.transactionSearchModalOpen.bind(this);
+    this.transactionSearchModalRecord = this.transactionSearchModalRecord.bind(this);
+
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
   }
 
   async componentDidMount() {
@@ -81,12 +86,35 @@ class CreateExpense extends Component {
     redirectTo(`/accounts/${this.state.accountId}/income/${this.state.incomeId}`);
   }
 
-  transactionSearch() {
+  async transactionSearchModalOpen() {
+    await this.setState({
+      transactionSearchModalIsOpen: true
+    });
+  }
+
+  transactionSearchModalOnSubmit() {
     console.log("I was clicked")
   }
 
-  closeTransactionSearchModal() {
+  async transactionSearchModalDismiss() {
+    await this.setState({
+      transactionSearchModalIsOpen: false
+    });
+  }
 
+  async transactionSearchModalRecord(description) {
+    await this.setState({
+      selectedTransactionDescription: description,
+      transactionSearchModalIsOpen: false,
+    });
+  }
+
+  async handleDescriptionChange(e) {
+    if (e.target) {
+      await this.setState({
+        selectedTransactionDescription: e.target.value
+      })
+    }
   }
   
   render() {
@@ -127,9 +155,11 @@ class CreateExpense extends Component {
                           type="text"
                           name="transactionDescription"
                           id="transactionDescription"
+                          value={this.state.selectedTransactionDescription}
+                          onChange={this.handleDescriptionChange}
                           required
                         />
-                        <Button onClick={this.transactionSearch}>
+                        <Button onClick={this.transactionSearchModalOpen}>
                           <FontAwesomeIcon icon={faSearch} data-tip='Find transaction' />
                         </Button>
                         </InputGroup>
@@ -167,6 +197,13 @@ class CreateExpense extends Component {
                     </Form>
                   </CardBody>
                 </Card>
+                <TransactionSearchModal
+                  modalIsOpen={this.state.transactionSearchModalIsOpen}
+                  modalDismiss={this.transactionSearchModalDismiss}
+                  onSubmit={this.transactionSearchModalOnSubmit}
+                  accountId={this.state.accountId}
+                  sendTransaction={this.transactionSearchModalRecord}
+                />
               </div>
             )
           }
