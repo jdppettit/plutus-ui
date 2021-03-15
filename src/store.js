@@ -9,6 +9,7 @@ import incomeReducer from './features/income/reducer';
 import transactionsReducer from './features/transactions/reducer';
 import expensesReducer from './features/expenses/reducer';
 import eventsReducer from './features/events/reducer';
+import onceOffReducer from './features/onceoff/reducer';
 
 const allReducers = combineReducers({
   alertsReducer,
@@ -16,7 +17,8 @@ const allReducers = combineReducers({
   incomeReducer,
   transactionsReducer,
   expensesReducer,
-  eventsReducer
+  eventsReducer,
+  onceOffReducer,
 })
 
 let allStoreEnhancers = compose(

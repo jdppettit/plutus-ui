@@ -30,6 +30,10 @@ export const accountTabSettings = {
     name: "account_settings",
     show_date_picker: false
   },
+  "6": {
+    name: "once_off",
+    show_date_picker: true,
+  },
   "match": {
     tab_number: "1",
     show_date_picker: false
@@ -46,10 +50,13 @@ export const accountTabSettings = {
     tab_number: "4",
     show_date_picker: true
   },
-
   "account_settings": {
     tab_number: "5",
     show_date_picker: false
+  },
+  "once_off": {
+    tab_number: "6",
+    show_date_picker: true
   }
 }
 

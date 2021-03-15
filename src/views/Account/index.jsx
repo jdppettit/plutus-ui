@@ -4,6 +4,7 @@ import Navigation from '../../components/navigation';
 import { getAccount, refreshData } from '../../features/accounts/actions';
 import { getTransactionsWindow } from '../../features/transactions/actions';
 import { getAccountIncomes } from '../../features/income/actions';
+import { getOnceOffs } from '../../features/onceoff/actions';
 import { getEventsWindow, updateEventAmount, deleteEvent } from '../../features/events/actions';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import {
@@ -81,6 +82,7 @@ class Default extends Component {
     await this.props.getTransactionsWindow(this.state.accountId, startWindow, endWindow);
     await this.props.getAccountIncomes(this.state.accountId);
     await this.props.getEventsWindow(this.state.accountId, startWindow, endWindow)
+    await this.props.getOnceOffs(this.state.accountId);
 
     let tab = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
     
@@ -235,6 +237,15 @@ class Default extends Component {
                      </NavItem>
                      <NavItem>
                       <NavLink
+                        className={this.state.tabActive === "6" ? "active" : ""}
+                        onClick={() => {this.tabToggle("6") }}
+                        href="#"
+                      >
+                        Once Off
+                      </NavLink>
+                     </NavItem>
+                     <NavItem>
+                      <NavLink
                         className={this.state.tabActive === "5" ? "active" : ""}
                         onClick={() => {this.tabToggle("5") }}
                         href="#"
@@ -288,6 +299,11 @@ class Default extends Component {
                       account={this.props.account}
                     />
                   </TabPane>
+                  <TabPane tabId="6">
+                    <AccountSettings
+                      account={this.props.account}
+                    />
+                  </TabPane>
                 </TabContent>
                 <Modal
                   isOpen={this.state.modalIsOpen}
@@ -329,12 +345,14 @@ const mapStateToProps = state => ({
   isFetching: state.accountsReducer.isFetching 
     || state.incomeReducer.isFetching 
     || state.transactionsReducer.isFetching
-    || state.eventsReducer.isFetching,
+    || state.eventsReducer.isFetching
+    || state.onceOffReducer.isFetching,
   accounts: state.accountsReducer.accounts,
   account: state.accountsReducer.account,
   transactions: state.transactionsReducer.transactions,
   incomes: state.incomeReducer.incomes,
-  events: state.eventsReducer.events
+  events: state.eventsReducer.events,
+  onceOffs: state.onceOffReducer.onceOffs
 });
 
 const mapActionsToProps = {
@@ -342,6 +360,7 @@ const mapActionsToProps = {
   getTransactionsWindow,
   getAccountIncomes,
   getEventsWindow,
+  getOnceOffs,
   updateEventAmount,
   deleteEvent,
   refreshData,

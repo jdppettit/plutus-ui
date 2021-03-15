@@ -74,9 +74,9 @@ class CreateExpense extends Component {
     e.preventDefault();
     let description = e.target[0].value;
     let transactionDescription = e.target[1].value;
-    let recurring = e.target[2].value === "true" ? true : false;
-    let amount = e.target[3].value;
-    let month = e.target[4].value ? parseInt(e.target[4].value) : e.target[4].value;
+    let recurring = e.target[3].value === "true" ? true : false;
+    let amount = e.target[4].value ? parseFloat(e.target[4].value) : e.target[4].value;
+    let month = e.target[5].value ? parseInt(e.target[5].value) : e.target[5].value;
 
     await this.props.createExpense(
       this.state.accountId,
