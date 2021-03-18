@@ -12,11 +12,13 @@ import Income from '../Income';
 import CreateExpense from '../CreateExpense';
 import DeleteIncome from '../DeleteIncome';
 import CreateEvent from '../CreateEvent';
+import EditExpense from '../EditExpense';
 
 export default function App() {
   return (
     <Router>
       <Switch>
+        <Route exact path="/accounts/:accountId/income/:incomeId/expense/:expenseId" component={EditExpense} />
         <Route exact path="/accounts/:accountId/income/:incomeId/expense/create" component={CreateExpense} />
         <Route exact path="/accounts/:accountId/events/create" component={CreateEvent} />
         <Route exact path="/accounts/:accountId/income/create" component={CreateIncome} />

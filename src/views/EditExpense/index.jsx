@@ -4,7 +4,7 @@ import Navigation from '../../components/navigation';
 import { pushAlert, popAlert } from '../../features/alerts/actions';
 import { getAccount } from '../../features/accounts/actions';
 import { getIncome } from '../../features/income/actions';
-import { createExpense } from '../../features/expenses/actions';
+import { getExpense, updateExpense } from '../../features/expenses/actions';
 import {
   Button,
   Container,
@@ -25,12 +25,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import ReactTooltip from 'react-tooltip';
 
-class CreateExpense extends Component {
+class EditExpense extends Component {
   constructor(props) {
     super(props);
 
     let accountId = 0;
     let incomeId = 0;
+    let expenseId = 0;
 
     if (!isNaN(parseInt(this.props.match.params.accountId))) {
       accountId = parseInt(this.props.match.params.accountId)
@@ -40,14 +41,20 @@ class CreateExpense extends Component {
       incomeId = parseInt(this.props.match.params.incomeId)
     }
 
+    if (!isNaN(parseInt(this.props.match.params.expenseId))) {
+      expenseId = parseInt(this.props.match.params.expenseId)
+    }
+
     this.state = {
       accountId: accountId,
       incomeId: incomeId,
+      expenseId: expenseId,
       transactionDescription: "",
       transactionAmount: 0.00,
       transactionSearchModalIsOpen: false,
       selectedTransactionDescription: "",
       selectedTransactionAmount: null,
+      expenseDescription: ""
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -55,6 +62,7 @@ class CreateExpense extends Component {
     this.transactionSearchModalDismiss = this.transactionSearchModalDismiss.bind(this);
     this.transactionSearchModalOpen = this.transactionSearchModalOpen.bind(this);
     this.transactionSearchModalRecord = this.transactionSearchModalRecord.bind(this);
+    this.handleExpenseDescriptionChange = this.handleExpenseDescriptionChange.bind(this);
 
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -68,6 +76,16 @@ class CreateExpense extends Component {
       this.state.accountId,
       this.state.incomeId
     )
+    await this.props.getExpense(
+      this.state.accountId,
+      this.state.incomeId,
+      this.state.expenseId
+    )
+    await this.setState({
+      selectedTransactionDescription: this.props.expense.transaction_description,
+      selectedTransactionAmount: this.props.expense.amount,
+      expenseDescription: this.props.expense.description
+    })
   }
 
   async onSubmit(e) {
@@ -76,11 +94,12 @@ class CreateExpense extends Component {
     let transactionDescription = e.target[1].value;
     let recurring = true
     let amount = e.target[3].value ? parseFloat(e.target[3].value) : e.target[3].value;
-    let month = null
+    let month = null;
 
-    await this.props.createExpense(
+    await this.props.updateExpense(
       this.state.accountId,
       this.state.incomeId,
+      this.state.expenseId,
       amount,
       description,
       transactionDescription,
@@ -129,6 +148,14 @@ class CreateExpense extends Component {
       })
     }
   }
+
+  async handleExpenseDescriptionChange(e) {
+    if (e.target) {
+      await this.setState({
+        expenseDescription: e.target.value
+      })
+    }
+  }
   
   render() {
     return (
@@ -144,10 +171,10 @@ class CreateExpense extends Component {
                   <BreadcrumbItem><a href="/accounts">Accounts</a></BreadcrumbItem>
                   <BreadcrumbItem><a href={`/accounts/${this.props.account.id}`}>{this.props.account.description}</a></BreadcrumbItem>
                   <BreadcrumbItem><a href={`/accounts/${this.props.account.id}/income/${this.props.income.id}`}>{this.props.income.description}</a></BreadcrumbItem>
-                  <BreadcrumbItem active>Create Expense</BreadcrumbItem>
+                  <BreadcrumbItem active>Edit Expense</BreadcrumbItem>
                 </Breadcrumb>
                 <div>
-                  <h2 className="plutus-subheader">Create Expense</h2>
+                  <h2 className="plutus-subheader">Update Expense</h2>
                 </div>
                 <Card>
                   <CardBody>
@@ -158,6 +185,8 @@ class CreateExpense extends Component {
                           type="text"
                           name="description"
                           id="description"
+                          value={this.state.expenseDescription}
+                          onChange={this.handleExpenseDescriptionChange}
                           required
                         />
                       </FormGroup>
@@ -189,7 +218,7 @@ class CreateExpense extends Component {
                           required
                         />
                       </FormGroup>
-                      <Button className="btn btn-success" type="submit">Add expense</Button>
+                      <Button className="btn btn-success" type="submit">Save</Button>
                     </Form>
                   </CardBody>
                 </Card>
@@ -217,15 +246,17 @@ const mapStateToProps = state => ({
     || state.incomeReducer.isFetching,
   accounts: state.accountsReducer.accounts,
   account: state.accountsReducer.account,
-  income: state.incomeReducer.income
+  income: state.incomeReducer.income,
+  expense: state.expensesReducer.expense
 });
 
 const mapActionsToProps = {
   popAlert,
   pushAlert,
-  createExpense,
   getAccount,
-  getIncome
+  getIncome,
+  getExpense,
+  updateExpense
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(CreateExpense);
+export default connect(mapStateToProps, mapActionsToProps)(EditExpense);

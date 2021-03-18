@@ -70,6 +70,7 @@ class Income extends Component {
                 <ExpensesTable
                   expenses={this.props.expenses}
                   accountId={this.state.accountId}
+                  incomeId={this.props.income.id}
                   income={this.props.income}
                 />
                 <a 

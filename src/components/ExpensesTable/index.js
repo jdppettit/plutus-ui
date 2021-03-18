@@ -25,7 +25,9 @@ class ExpensesTable extends Component {
         {expenses.map((value, index) => {
           return (
             <tr key={index}>
-              <td>{value.description}</td>
+              <td>
+                <a href={`/accounts/${this.props.accountId}/income/${this.props.incomeId}/expense/${value.id}`}>{value.description}</a>
+              </td>
               <td>{formatMoney(value.amount)}</td>
               <td>
               <a href={`/accounts/${this.props.account_id}/income/${this.props.income.id}/expense/${value.id}/delete`} data-tip="Delete expense">
